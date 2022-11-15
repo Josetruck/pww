@@ -1,0 +1,33 @@
+{
+  "name": "pww",
+  "version": "1.0.0",
+  "description": "Pictures arround the world",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js",
+    "nodemon": "nodemon node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Josetruck/pww.git"
+  },
+  "keywords": [
+    "pww"
+  ],
+  "author": "Jose Angel Contreras",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Josetruck/pww/issues"
+  },
+  "homepage": "https://github.com/Josetruck/pww#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^4.11.0",
+    "mongoose": "^6.7.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20",
+    "sequelize": "^6.25.5"
+  }
+}
