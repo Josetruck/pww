@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../../database/mysql')
 const Clans = sequelize.define('clans', {
-    id_clan: { type: Sequelize.INTEGER, primaryKey: true },
+    id: { type: Sequelize.INTEGER, primaryKey: true },
     clan_name: Sequelize.STRING,
     total_distance: Sequelize.INTEGER,
     this_week_distance: Sequelize.INTEGER,
@@ -11,4 +11,4 @@ const Clans = sequelize.define('clans', {
 }, {
     timestamps: false
 });
-module.exports=Clans;
+module.exports = Clans;

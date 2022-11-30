@@ -2,61 +2,72 @@
 create database pww;
 use pww;
 create table factions(
-    id_faction INT AUTO_INCREMENT,
+    id INT AUTO_INCREMENT,
     faction_name VARCHAR(20) NOT NULL,
     total_distance int(20),
     this_week_distance int(20),
-    PRIMARY KEY (id_faction)
+    PRIMARY KEY (id)
 );
 
 insert into factions values(null,"Truckers",0,0);
 insert into factions values(null,"Bikers",0,0);
 
 create table clans(
-    id_clan INT AUTO_INCREMENT,
-    clan_name VARCHAR(20) NOT NULL,
+    id INT AUTO_INCREMENT,
+    clan_name VARCHAR(20) NOT NULL unique,
     total_distance int(20),
     this_week_distance int(20),
-    creation_date date,
+    creation_date date DEFAULT (CURRENT_DATE),
     creator varchar(20),
     fk_id_faction int,
-    PRIMARY KEY (id_clan),
-    FOREIGN KEY (fk_id_faction) references factions(id_faction)
+    PRIMARY KEY (id),
+    FOREIGN KEY (fk_id_faction) references factions(id)
     );
     
 create table users(
-    id_user INT AUTO_INCREMENT,
-    user_name VARCHAR(20) NOT NULL,
-	email varchar(200),
-    pass char(32),
+    id INT AUTO_INCREMENT,
+    user_name VARCHAR(20) NOT NULL unique,
+	email varchar(200) unique,
+    pass varchar(64),
     total_distance int(20),
     this_week_distance int(20),
     clan_admin boolean,
     fk_id_clan int,
     fk_id_faction int,
-    PRIMARY KEY (id_user),
-    FOREIGN KEY (fk_id_faction) references factions(id_faction),
-    FOREIGN KEY (fk_id_clan) references clans(id_clan) on delete set null
+    PRIMARY KEY (id),
+    FOREIGN KEY (fk_id_faction) references factions(id),
+    FOREIGN KEY (fk_id_clan) references clans(id) on delete set null
 );
 
 create table weekly_game(
-    id_weekly_score INT AUTO_INCREMENT,
+    id INT AUTO_INCREMENT,
     score int(20),
-    score_date date,
+    score_date date default (current_date),
     fk_id_user int,
-    PRIMARY KEY (id_weekly_score),
-    FOREIGN KEY (fk_id_user) references users(id_user)
+    PRIMARY KEY (id),
+    FOREIGN KEY (fk_id_user) references users(id)
     );
     
 create table req_friend(
-    id_req INT AUTO_INCREMENT,
+    id INT AUTO_INCREMENT,
     fk_id_from int,
     fk_id_to int,
-    req_date date,
+    req_date date DEFAULT (CURRENT_DATE),
     req_status varchar(20),
-    PRIMARY KEY (id_req),
-    FOREIGN KEY (fk_id_from) references users(id_user),
-    FOREIGN KEY (fk_id_to) references users(id_user)
+    PRIMARY KEY (id),
+    FOREIGN KEY (fk_id_from) references users(id),
+    FOREIGN KEY (fk_id_to) references users(id)
+    );
+
+    create table req_member(
+    id INT AUTO_INCREMENT,
+    fk_id_from int,
+    fk_id_to int,
+    req_date date DEFAULT (CURRENT_DATE),
+    req_status varchar(20),
+    PRIMARY KEY (id),
+    FOREIGN KEY (fk_id_from) references users(id),
+    FOREIGN KEY (fk_id_to) references clans(id)
     );
     
     create table deleted_users(
@@ -70,8 +81,8 @@ create table req_friend(
     fk_id_clan int,
     fk_id_faction int,
     PRIMARY KEY (id),
-    FOREIGN KEY (fk_id_faction) references factions(id_faction),
-    FOREIGN KEY (fk_id_clan) references clans(id_clan) on delete set null
+    FOREIGN KEY (fk_id_faction) references factions(id),
+    FOREIGN KEY (fk_id_clan) references clans(id) on delete set null
 );
 
 create table deleted_clans(
@@ -83,6 +94,6 @@ create table deleted_clans(
     creator varchar(20),
     fk_id_faction int,
     PRIMARY KEY (id),
-    FOREIGN KEY (fk_id_faction) references factions(id_faction)
+    FOREIGN KEY (fk_id_faction) references factions(id)
     );
     
