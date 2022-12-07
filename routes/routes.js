@@ -3,6 +3,7 @@ const profile = require("../controllers/profiles.controllers");
 const user = require("../controllers/users.controllers")
 const pages = require("../controllers/pages.controllers");
 const clans = require("../controllers/clans.controllers");
+const images = require("../controllers/images.controllers");
 
 
 
@@ -24,5 +25,8 @@ router.post("/updateProfile", profile.update)// Modifica los datos personales de
 router.post("/login", user.login) // funcion que verifica el usuario y la contraseña. pone una cookie
 router.post("/searchUser", user.searchUser)
 router.post("/newClan", clans.newClan)
+
+//Images
+router.post("/upload", images.upload)
 
 module.exports = router;

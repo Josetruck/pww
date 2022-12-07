@@ -48,7 +48,7 @@ const user = {
             res.send("no ok");
         }
     },
-    isClanAdmin: async (req, res) => {
+    getUserData: async (req, res) => {
         try {
             let user_data = await user.getFromCookie(req,res)
             res.json(await Users.findOne({ where: { "id": user_data.id_user } }))
