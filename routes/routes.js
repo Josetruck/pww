@@ -25,6 +25,7 @@ router.post("/updateProfile", profile.update)// Modifica los datos personales de
 router.post("/login", user.login) // funcion que verifica el usuario y la contraseña. pone una cookie
 router.post("/searchUser", user.searchUser)
 router.post("/newClan", clans.newClan)
+router.get("/loggedUser",user.getUserData)
 
 //Images
 router.post("/upload", images.upload)

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = require("./routes/routes");
-const port = 3000;
+const port = 5000;
 const app = express();
 const cookieParser = require('cookie-parser');
 const path = require("path")
@@ -24,7 +24,14 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(upload.single("file"))
 // Motores de vistas:
-app.set("view engine", "ejs");
+const cors=require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
 
 // Rutas estáticas
 app.use(express.static("./views"));

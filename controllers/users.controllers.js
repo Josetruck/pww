@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const sendemail = require("./email.controllers");
 const SendmailTransport = require("nodemailer/lib/sendmail-transport");
 const sequelize = require("../database/mysql");
+const { Op } = require("sequelize")
 
 const user = {
     register: async (req, res) => {
@@ -35,40 +36,38 @@ const user = {
                 id_user: userfind.dataValues.id
             }
             let compare = bcyptjs.compareSync(pass, hashSaved);
-            const infoJwt = jwt.sign({ cookie }, "m1c4s4", {
-                expiresIn: "1800s",
-            });
+            const infoJwt = jwt.sign({ cookie }, "m1c4s4");
             if (compare) {
-                res.cookie("infoJwt", infoJwt);
-                res.send("ok");
+                res.cookie("session", infoJwt)
+                res.json({ cookie: infoJwt });
             } else {
-                res.send("no ok");
+                res.json(false);
             }
         } else {
-            res.send("no ok");
+            res.json(false);
         }
     },
     getUserData: async (req, res) => {
         try {
-            let user_data = await user.getFromCookie(req,res)
-            res.json(await Users.findOne({ where: { "id": user_data.id_user } }))
+            let user_data = await user.getFromCookie(req, res)
+            res.json(await Users.findOne({ attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] }, { where: { "id": user_data.id_user } }))
         } catch (error) {
             res.send(error)
         }
     },
-    searchUser: async (req,res)=>{
+    searchUser: async (req, res) => {
         try {
-            res.json(await sequelize.query(`SELECT * FROM users WHERE user_name LIKE "%${req.body.user_name}%"`))
+            res.json(await Users.findAll({ attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] }, { where: { user_name: { [Op.like]: `%${req.body.user_name}%` } } }))
         } catch (error) {
             res.send(error)
         }
     },
-    getFromCookie:async (req, res) => {
+    getFromCookie: async (req, res) => {
         try {
-            var data = jwt.verify(req.cookies.infoJwt, "m1c4s4")
+            var data = jwt.verify(req.cookies.session, "m1c4s4")
             return data.cookie
         } catch (error) {
-            return {error}
+            return { error }
         }
     }
 }
