@@ -19,8 +19,7 @@ class App extends Component {
     }
     componentDidMount() {
         // Carga la información del usuario con la sesion iniciada.
-        defaultFetch("http://localhost:5000/loggedUser", "GET").then((res) => {
-            console.log(res)
+        defaultFetch("/loggedUser", "GET").then((res) => {
             this.setState({
                 loaded: true,
                 userData: res
@@ -37,9 +36,10 @@ class App extends Component {
             return (
                 <div className="App">
                     <BrowserRouter>
+                    <UserContext.Provider value={this.state.userData}>
                         <Navigationbar />
                         <MainComponent />
-                        <UserContext.Provider value={this.state.userData} />
+                        </UserContext.Provider>
                     </BrowserRouter>
                 </div>
             );

@@ -9,6 +9,7 @@ export const defaultFetch = async (endPoint, metodo, datos) => {
       },
     };
   
-    const res = (await fetch(endPoint, metaData)).json();
+    const res = (await fetch(`http://localhost:5000${endPoint}`, metaData)).json();
+    
     return res;
   }

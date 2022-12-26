@@ -26,6 +26,9 @@ const Users = sequelize.define('users', {
     clan_admin: {
         type: DataTypes.BOOLEAN,
     },
+    email_verified: {
+        type: DataTypes.BOOLEAN,
+    },
     fk_id_clan: {
         type: DataTypes.INTEGER,
     },

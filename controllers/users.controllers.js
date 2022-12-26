@@ -14,8 +14,18 @@ const user = {
             const pass_hash = await bcyptjs.hash(pass, 8);
             const newUser = await Users.create({ user_name, email, "pass": pass_hash });
             await profile.register(req, res, newUser.id)
-        } catch (ValidationError) {
-            res.send(ValidationError);
+            const infoJwt = jwt.sign({ email }, "m1c4s4", {
+                expiresIn: "1000s",
+              });
+              let cookie = {
+                user_name: newUser.dataValues.user_name,
+                id_user: newUser.dataValues.id
+            }
+            const sessionJwt = jwt.sign({ cookie }, "m1c4s4");
+            sendemail.emailToRegister(infoJwt,email)
+            res.json({ cookie: sessionJwt })
+        } catch (error) {
+            res.json(error);
         }
     },
     login: async (req, res) => {
@@ -50,7 +60,7 @@ const user = {
     getUserData: async (req, res) => {
         try {
             let user_data = await user.getFromCookie(req, res)
-            res.json(await Users.findOne({ attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] }, { where: { "id": user_data.id_user } }))
+            res.json(await Users.findOne({ attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin","email_verified", "fk_id_clan", "fk_id_faction"] }, { where: { "id": user_data.id_user } }))
         } catch (error) {
             res.send(error)
         }
@@ -62,6 +72,18 @@ const user = {
             res.send(error)
         }
     },
+    searchAvaliableUser: async (req, res) => {
+        try {
+            const avaliable = await Users.findOne({ where: { user_name: req.body.user_name } })
+            console.log(avaliable)
+            if(avaliable){
+                res.json({avaliable:false})
+            }else{res.json({avaliable:true})}
+            
+        } catch (error) {
+            res.json(error)
+        }
+    },
     getFromCookie: async (req, res) => {
         try {
             var data = jwt.verify(req.cookies.session, "m1c4s4")
@@ -69,7 +91,37 @@ const user = {
         } catch (error) {
             return { error }
         }
+    },
+    emailExists: async (req, res) => {
+        try {
+            const userf = await Users.findOne({where:{email:req.params.email}})
+            if(userf){
+                res.json(true)
+            } else {
+                res.json(false)
+            }
+        } catch (error) {
+            console.log(error)
+            res.json(false)
+        }
+    },
+      /**
+   * Envia al email un enlace de acceso al registro.
+   * @param {json} req 
+   * @param {json} res 
+   */
+  confirmEmail: async (req, res) => {
+    try {
+      const { email } = req.body;
+      const infoJwt = jwt.sign({ email }, "m1c4s4", {
+        expiresIn: "1000s",
+      });
+      await sendemail.emailToRegister(infoJwt, email);
+      res.json(`Email enviado a ${email}`);
+    } catch (error) {
+      res.json(error)
     }
+  },
 }
 
 module.exports = user

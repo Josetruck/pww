@@ -2,23 +2,25 @@ import React, { useState } from "react";
 import { defaultFetch } from "../helpers/defaultFetch";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'universal-cookie';
+import { useNavigate } from "react-router-dom";
+import Warning from "../components/warnings/Warning";
 
 function Login() {
   const [pass, setPass] = useState("");
   const [input, setInput] = useState("");
-  const [passError, setpassError] = useState("");
   const [login_err, setLogin_err] = useState(false)
+  const navigate = useNavigate()
 
   const handleValidation = (event) => {
     const cookies = new Cookies();
-
     var datos = { input, pass };
 
-    defaultFetch("http://localhost:5000/login", "POST", datos).then((res) => {
+    defaultFetch("/login", "POST", datos).then((res) => {
       console.log(res)
       if (res) {
-        cookies.set('session', res.cookie);
+        cookies.set('session', res.cookie,{path:"/"});
         setLogin_err(false)
+        navigate("/")
       } else {
         setLogin_err(true)
       }
@@ -58,10 +60,8 @@ function Login() {
                   placeholder="Contraseña"
                   onChange={(event) => setPass(event.target.value)}
                 />
-                <small id="passerror" className="text-danger form-text">
-                  {passError}
-                </small>
               </div>
+              {login_err?<Warning text="Usuario y/o contraseña incorrectos"/>:""}
               <button type="submit" className="btn btn-primary">
                 Log-in
               </button>

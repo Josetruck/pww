@@ -5,7 +5,7 @@ class Contact extends Component {
         super(props);
     }
     render() {
-        return <div>ESTE ES EL COMPONENTE CONTACT</div>;
+        return <div>SEARCH </div>;
     }
 }
 export default Contact;

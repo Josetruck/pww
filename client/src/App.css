@@ -2,3 +2,15 @@
     width: 100vw;
     height: 100vh;
 }
+.form-group, .row{
+    padding: 0px 10px;
+    display: grid;
+}
+#loginform > div:nth-child(2) > div > div > div{
+    margin-bottom: 0px;
+    text-align: center;
+}
+.alert-form-container{
+    line-height: 5px;
+    text-align: center;
+}
