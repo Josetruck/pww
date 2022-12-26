@@ -4,12 +4,12 @@ export const defaultFetch = async (endPoint, metodo, datos) => {
       body: JSON.stringify(datos),
       mode: "cors",
       headers: {
-        "Access-Control-Allow-Origin": "*",
+       "Access-Control-Allow-Origin": "*",
         "Content-type": "application/json",
       },
     };
   
-    const res = (await fetch(`http://localhost:5000${endPoint}`, metaData)).json();
+    const res = (await fetch(endPoint, metaData)).json();
     
     return res;
   }

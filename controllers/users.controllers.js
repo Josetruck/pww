@@ -3,8 +3,6 @@ const profile = require("./profiles.controllers")
 const bcyptjs = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const sendemail = require("./email.controllers");
-const SendmailTransport = require("nodemailer/lib/sendmail-transport");
-const sequelize = require("../database/mysql");
 const { Op } = require("sequelize")
 
 const user = {
@@ -59,8 +57,11 @@ const user = {
     },
     getUserData: async (req, res) => {
         try {
-            let user_data = await user.getFromCookie(req, res)
-            res.json(await Users.findOne({ attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin","email_verified", "fk_id_clan", "fk_id_faction"] }, { where: { "id": user_data.id_user } }))
+            let user_data = await user.getFromCookie(req)
+            console.log(user_data)
+            const userFinded = await Users.findOne({ where: { id: user_data.id_user} })
+            console.log(userFinded)
+            res.json(userFinded.dataValues)
         } catch (error) {
             res.send(error)
         }
@@ -84,9 +85,11 @@ const user = {
             res.json(error)
         }
     },
-    getFromCookie: async (req, res) => {
+    getFromCookie: async (req) => {
         try {
+            console.log(req.cookies)
             var data = jwt.verify(req.cookies.session, "m1c4s4")
+            console.log(data)
             return data.cookie
         } catch (error) {
             return { error }
