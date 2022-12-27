@@ -14,3 +14,22 @@
     line-height: 5px;
     text-align: center;
 }
+.marginadoTop{
+    margin-top: 15px;
+}
+.imgPreview{
+    width: 70%;
+    display: block;
+    border: 2px solid black;
+    border-radius: 15px;
+    align-self: center;
+}
+.centrado{
+justify-items: center;
+}
+.logoNav{
+    height: 7vh;
+}
+.navSpace{
+    width: 6vw;
+}

@@ -15,15 +15,15 @@ function App() {
     const [loaded, setLoaded] = useState(false)
 
     useEffect(()=>{
-        if(!loaded){
+        //if(!loaded){
             defaultFetch("/loggedUser", "GET").then((res) => {
                 setUser(res)
                 console.log(res)
-                setLoaded(true)
+                //setLoaded(true)
                 })
-        }
+       // }
 
-    },[loaded])
+    },[])
     
   
     return (

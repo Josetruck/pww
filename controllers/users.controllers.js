@@ -14,13 +14,13 @@ const user = {
             await profile.register(req, res, newUser.id)
             const infoJwt = jwt.sign({ email }, "m1c4s4", {
                 expiresIn: "1000s",
-              });
-              let cookie = {
+            });
+            let cookie = {
                 user_name: newUser.dataValues.user_name,
                 id_user: newUser.dataValues.id
             }
             const sessionJwt = jwt.sign({ cookie }, "m1c4s4");
-            sendemail.emailToRegister(infoJwt,email)
+            sendemail.emailToRegister(infoJwt, email)
             res.json({ cookie: sessionJwt })
         } catch (error) {
             res.json(error);
@@ -59,7 +59,7 @@ const user = {
         try {
             let user_data = await user.getFromCookie(req)
             console.log(user_data)
-            const userFinded = await Users.findOne({ where: { id: user_data.id_user} })
+            const userFinded = await Users.findOne({ where: { id: user_data.id_user } })
             console.log(userFinded)
             res.json(userFinded.dataValues)
         } catch (error) {
@@ -77,10 +77,10 @@ const user = {
         try {
             const avaliable = await Users.findOne({ where: { user_name: req.body.user_name } })
             console.log(avaliable)
-            if(avaliable){
-                res.json({avaliable:false})
-            }else{res.json({avaliable:true})}
-            
+            if (avaliable) {
+                res.json({ avaliable: false })
+            } else { res.json({ avaliable: true }) }
+
         } catch (error) {
             res.json(error)
         }
@@ -97,8 +97,8 @@ const user = {
     },
     emailExists: async (req, res) => {
         try {
-            const userf = await Users.findOne({where:{email:req.params.email}})
-            if(userf){
+            const userf = await Users.findOne({ where: { email: req.params.email } })
+            if (userf) {
                 res.json(true)
             } else {
                 res.json(false)
@@ -108,23 +108,57 @@ const user = {
             res.json(false)
         }
     },
-      /**
-   * Envia al email un enlace de acceso al registro.
-   * @param {json} req 
-   * @param {json} res 
-   */
-  confirmEmail: async (req, res) => {
-    try {
-      const { email } = req.body;
-      const infoJwt = jwt.sign({ email }, "m1c4s4", {
-        expiresIn: "1000s",
-      });
-      await sendemail.emailToRegister(infoJwt, email);
-      res.json(`Email enviado a ${email}`);
-    } catch (error) {
-      res.json(error)
-    }
-  },
+    /**
+ * Envia al email un enlace de acceso al registro.
+ * @param {json} req 
+ * @param {json} res 
+ */
+    confirmEmail: async (req, res) => {
+        try {
+            const { email } = req.body;
+            const infoJwt = jwt.sign({ email }, "m1c4s4", {
+                expiresIn: "1000s",
+            });
+            await sendemail.emailToRegister(infoJwt, email);
+            res.json(`Email enviado a ${email}`);
+        } catch (error) {
+            res.json(error)
+        }
+    },
+    passRecovery: async (req, res) => {
+        const { email } = req.body;
+        const infoUser = await Users.findOne({ where: { "email": req.body.email } });
+        if (infoUser) {
+            const infoJwt = jwt.sign({ email }, "m1c4s4", {
+                expiresIn: "1000s",
+            });
+            sendemail.passrequest(infoJwt, email);
+            res.json(infoJwt);
+        } else {
+            res.json(false);
+        }
+    },
+    passReset: async (req, res) => {
+        let { token, password } = req.body;
+        try {
+            // Verifica el token donde está el email del usuario
+            let jwtVerify = jwt.verify(token, "m1c4s4");
+            let email = jwtVerify.email;
+            var user_password = await bcyptjs.hash(password, 8);
+            const infoUser = await Users.update({ user_password }, { where: { email } });
+            const infoUser2 = await Users.findOne({ where: { email } })
+            sendemail.passconfirm(email);
+            let cookie = {
+                user_name: infoUser2.dataValues.user_name,
+                id_user: infoUser2.dataValues.id
+            }
+            const infoJwt = jwt.sign({ cookie }, "m1c4s4");
+            res.cookie("session", infoJwt)
+            res.json({ cookie: infoJwt });
+        } catch (error) {
+            res.json(error)
+        }
+    },
 }
 
 module.exports = user

@@ -17,15 +17,6 @@ L.Icon.Default.mergeOptions({
 
 function MapImg(props) {
 
-
-
-
-
-
-  
-
-
-  
     return <MapContainer center={props.coords} zoom={6} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -1,12 +1,12 @@
 var nodemailer = require('nodemailer');
 
 const smtpConfig = {
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
+  host: 'smtp.ionos.es',
+  port: 465,
+  secure: true,
   auth: {
-    user: "quatrellothebridge@gmail.com",
-    pass: "kvygzxqgdachkjoe"
+    user: "info@suricatoav.es",
+    pass: "laura_guapa"
   }
 };
 const transporter = nodemailer.createTransport(smtpConfig);
@@ -21,7 +21,7 @@ const email = {
     var username = email.split("@")[0]
     console.log("eviando correo")
     var mailOptions = {
-      from: 'pww@gmail.com',
+      from: 'info@suricatoav.es',
       to: email,
       subject: 'Verifica tu correo electrónico para PicturesWorldWide',
       text: "",
@@ -113,9 +113,9 @@ const email = {
    * @param {string} user_email - dirección de email del usuario que ha solicitado la contraseña.
    */
   passrequest: async (infoJwt, user_email) => {
-
+    var username = user_email.split("@")[0]
     var mailOptions = {
-      from: 'pww@gmail.com',
+      from: 'info@suricatoav.es',
       to: user_email,
       subject: 'Cambio de contraseña: Comprobacion de identidad',
       text: "",
@@ -158,13 +158,13 @@ const email = {
                             <a style="text-decoration:none;color:inherit">Hola, ${username}:</a></p>
                         <p
                             style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;font-size:14px;font-weight:400;letter-spacing:-0.005em;color:#091e42;line-height:20px;margin-top:12px">
-                            Para terminar de configurar tu cuenta y empezar a usar Pictures World Wide, confirma que
-                            tenemos tu correo electrónico correcto.</p>
+                            Para cambiar tu contraseña en Pictures World Wide, confirma que
+                            tenemos tu identidad y procede a restablecer tu contraseña. Si no has solicitado este cambio, por favor ignora esta comunicación.</p>
                         <div style="margin-top:28px"><a
-                                href="http://127.0.0.1:3000/account-verify/${jwt}"
+                                href="http://127.0.0.1:3000/passreset/${infoJwt}"
                                 style="box-sizing:border-box;border-radius:3px;border-width:0;border:none;display:inline-flex;font-style:normal;font-size:inherit;height:2.28571429em;line-height:2.28571429em;margin:0;outline:none;padding:0 12px;text-align:center;vertical-align:middle;white-space:nowrap;text-decoration:none;background:#0052cc;color:#ffffff"
                                 target="_blank"
-                                >Verifica tu correo electrónico</a></div>
+                                >Restablecer contraseña</a></div>
                         <hr style="margin-top:24px;margin-bottom:24px;border:0;border-bottom:1px solid #c1c7d0">
                                 <tbody>
                                     <tr>
@@ -206,8 +206,9 @@ const email = {
    * @param {string} user_email - dirección de email del usuario.
    */
   passconfirm: async (user_email) => {
+    var username = user_email.split("@")[0]
     var mailOptions = {
-      from: 'quatrellothebridge@gmail.com',
+      from: 'info@suricatoav.es',
       to: user_email,
       subject: 'Confirmación de cambio de contraseña',
       text: "",
@@ -244,19 +245,14 @@ const email = {
                         </table>
                         <h1
                             style="margin-bottom:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;font-size:24px;font-weight:500;letter-spacing:-0.01em;color:#172b4d;line-height:28px;margin-top:40px">
-                            ¡Ya falta poco!</h1>
+                            ¡Se ha restablecido tu contraseña!</h1>
                         <p
                             style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;font-size:14px;font-weight:400;letter-spacing:-0.005em;color:#091e42;line-height:20px;margin-top:12px">
                             <a style="text-decoration:none;color:inherit">Hola, ${username}:</a></p>
                         <p
                             style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;font-size:14px;font-weight:400;letter-spacing:-0.005em;color:#091e42;line-height:20px;margin-top:12px">
-                            Para terminar de configurar tu cuenta y empezar a usar Pictures World Wide, confirma que
-                            tenemos tu correo electrónico correcto.</p>
-                        <div style="margin-top:28px"><a
-                                href="http://127.0.0.1:3000/account-verify/${jwt}"
-                                style="box-sizing:border-box;border-radius:3px;border-width:0;border:none;display:inline-flex;font-style:normal;font-size:inherit;height:2.28571429em;line-height:2.28571429em;margin:0;outline:none;padding:0 12px;text-align:center;vertical-align:middle;white-space:nowrap;text-decoration:none;background:#0052cc;color:#ffffff"
-                                target="_blank"
-                                >Verifica tu correo electrónico</a></div>
+                            Se ha completado el proceso de restablecimiento de credenciales para tu cuenta. Gracias por usar Pictures World Wide</p>
+                       
                         <hr style="margin-top:24px;margin-bottom:24px;border:0;border-bottom:1px solid #c1c7d0">
                                 <tbody>
                                     <tr>

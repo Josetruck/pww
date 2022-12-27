@@ -17,6 +17,8 @@ router.post("/newClan", clans.newClan)
 router.get("/loggedUser",user.getUserData)
 router.get("/emailexists/:email", user.emailExists)
 router.post("/sendEmailVerify", user.confirmEmail)
+router.post("/passRecovery", user.passRecovery)
+router.post("/passReset", user.passReset)
 
 //Images
 router.post("/upload", images.upload)

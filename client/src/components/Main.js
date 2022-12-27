@@ -7,6 +7,11 @@ import Login from "../pages/Login";
 import PreRegister from "../pages/PreRegister"
 import Register2 from "../pages/Register2";
 import RegisterSucces from "../pages/RegisterSuccess";
+import Passrecovery from "../pages/Passrecovery";
+import PassReset from "../pages/PassReset";
+import PassRequestSuccess from "../pages/PassRequestSuccess";
+import UploadImage from "../pages/UploadImg";
+
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +28,11 @@ class Main extends Component {
                 <Route path="/preregister" element={<PreRegister />} />
                 <Route path="/registerSuccess" element={<RegisterSucces />} />
                 <Route path="/register2/:email" element={<Register2 />} />
+                <Route path="/passrecovery" element={<Passrecovery />} />
+                <Route path="/passreset/:token" element={<PassReset />} />
+                <Route path="/passrequestsuccess" element={<PassRequestSuccess />} />
+                <Route path="/uploadimage" element={<UploadImage/>} />
+
             </Routes>
         </div>
         );

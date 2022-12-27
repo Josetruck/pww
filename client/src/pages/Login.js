@@ -19,7 +19,7 @@ function Login() {
     defaultFetch("/login", "POST", datos).then((res) => {
       console.log(res)
       if (res) {
-        cookies.set('session', res.cookie,{path:"/"});
+        cookies.set('session', res.cookie, { path: "/" });
         setLogin_err(false)
         navigate("/")
       } else {
@@ -33,6 +33,10 @@ function Login() {
     e.preventDefault();
     handleValidation();
   };
+
+  function toRegister(){
+    navigate("/preRegister")
+  }
 
   return (
     <div className="App">
@@ -62,11 +66,24 @@ function Login() {
                   onChange={(event) => setPass(event.target.value)}
                 />
               </div>
-              {login_err?<Warning text="Usuario y/o contraseña incorrectos"/>:""}
-              <button type="submit" className="btn btn-primary">
-                Log-in
-              </button>
+              <div className="form-group">
+                <a href="/passrecovery">¿Has olvidado la contraseña?</a>
+              </div>
+              {login_err ? <Warning text="Usuario y/o contraseña incorrectos" /> : ""}
+              <div className="form-group marginadoTop">
+                <button type="submit" className="btn btn-primary">
+                  Log-in
+                </button>
+              </div>
             </form>
+            <div className="form-group marginadoTop">
+              <h2 className="marginadoTop">¿Aún no tienes cuenta?</h2>
+            </div>
+            <div className="form-group marginadoTop">
+              <button className="btn btn-success" onClick={()=>toRegister()}>
+                Registrate
+              </button>
+            </div>
           </div>
         </div>
       </div>
