@@ -4,12 +4,22 @@ const port = 5000;
 const app = express();
 const cookieParser = require('cookie-parser');
 const multer = require("multer")
-const path = require("path")
+const fs = require('fs');
+const user = require('./controllers/users.controllers')
 
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "Images");
+    destination: async (req, file, cb) => {
+        console.log(req.headers.id_user)
+        fs.mkdir(`./Images/${req.headers.id_user}`,(err) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log('Carpeta creada con éxito');
+            }
+          });
+        const destination = `./Images/${req.headers.id_user}`
+        cb(null, destination);
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}--${file.originalname}`);
@@ -19,7 +29,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 app.post("/upload", upload.single("file"), (req, res) => {
-    console.log(req.file)
+    
     // Puedes utilizar req.file.filename para obtener el nombre del archivo subido
     res.json({
         status:true,

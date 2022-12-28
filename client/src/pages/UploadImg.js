@@ -26,6 +26,9 @@ function UploadImage() {
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
+        console.log(file)
+        
+
         setImagen({
             file: file,
             imagePreviewUrl: URL.createObjectURL(file)
@@ -64,9 +67,13 @@ function UploadImage() {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file", imagen.file);
+        console.log(formData)
         fetch("/upload", {
             method: "POST",
-            body: formData
+            body: formData,
+            headers:{
+                id_user:id_user
+            }
         })
             .then(res => res.json()).then(res => {
                 const url = res.path;
