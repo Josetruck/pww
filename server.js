@@ -37,6 +37,11 @@ app.post("/upload", upload.single("file"), (req, res) => {
     });
   });
 
+  app.get('/Images/:id_user/:file', (req, res) => {
+    console.log(req.params)
+    res.sendFile(`${__dirname}/Images/${req.params.id_user}/${req.params.file}`);
+  });
+
 // Middlewares: 
 app.use(cookieParser());
 app.use(express.json());

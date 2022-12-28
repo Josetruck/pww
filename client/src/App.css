@@ -33,3 +33,15 @@ justify-items: center;
 .navSpace{
     width: 6vw;
 }
+.grid{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.imgGrid{
+    width: 33vw;
+    height: 20vh;
+    
+    padding: 1%
+}

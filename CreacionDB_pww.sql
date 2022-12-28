@@ -4,8 +4,8 @@ use pww;
 create table factions(
     id INT AUTO_INCREMENT,
     faction_name VARCHAR(20) NOT NULL,
-    total_distance int(20),
-    this_week_distance int(20),
+    total_distance int(20) default 0,
+    this_week_distance int(20) default 0,
     PRIMARY KEY (id)
 );
 
@@ -15,8 +15,8 @@ insert into factions values(null,"Bikers",0,0);
 create table clans(
     id INT AUTO_INCREMENT,
     clan_name VARCHAR(20) NOT NULL unique,
-    total_distance int(20),
-    this_week_distance int(20),
+    total_distance int(20) default 0,
+    this_week_distance int(20) default 0,
     creation_date date DEFAULT (CURRENT_DATE),
     creator varchar(20),
     fk_id_faction int,
@@ -29,9 +29,10 @@ create table users(
     user_name VARCHAR(20) NOT NULL unique,
 	email varchar(200) unique,
     pass varchar(64),
-    total_distance int(20),
-    this_week_distance int(20),
-    clan_admin boolean,
+    total_distance int(20) default 0,
+    this_week_distance int(20) default 0,
+    clan_admin boolean default 0,
+    email_verified boolean default 0,
     fk_id_clan int,
     fk_id_faction int,
     PRIMARY KEY (id),

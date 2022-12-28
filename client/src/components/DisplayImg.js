@@ -1,9 +1,29 @@
 import Nav from 'react-bootstrap/Nav';
 import {useEffect, useState} from "react"
 import MapImg from './MapImg';
-function DisplayImg() {
-    const [view , setview] = useState("grid")
+import GridImg from './GridImg';
+import { defaultFetch } from '../helpers/defaultFetch';
+import { useParams } from 'react-router-dom';
+
+function DisplayImg(props) {
+    const [view , setview] = useState(null)
     const [usercoords, setCoords] = useState([50.4214943, -3.6927735])
+    const [userImages, setUserImages] = useState([])
+    const [imgLoaded, setImgLoaded] = useState(false)
+
+    useEffect(()=>{
+      defaultFetch(`/getImagesById/${props.id_user}`).then((res)=>{
+        setUserImages(res)
+        setImgLoaded(true)
+      })
+    },[view])
+
+    useEffect(()=>{
+      if(!imgLoaded){
+        setview("grid")
+      }
+    })
+
     useEffect(()=>{
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -24,7 +44,10 @@ function DisplayImg() {
       </Nav.Item>
     </Nav>
     {view === "map" 
-    ? <div id='map'><MapImg coords={usercoords}></MapImg></div> : <h2>Grid</h2>}
+    ? <div id='map'><MapImg coords={usercoords} images={userImages}></MapImg></div> : null}
+    {view === "grid" 
+    ? <div id="grid"><GridImg images={userImages}/></div> : null}
+    
     </div>
   );
 }

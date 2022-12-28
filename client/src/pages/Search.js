@@ -1,11 +1,24 @@
-import React, { Component } from "react";
+import { isLogged } from "../helpers/isLogged";
+import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react"
 
-class Contact extends Component {
-    constructor(props) {
-        super(props);
+function Contact() {
+    const navigate = useNavigate()
+    const [verify1, setVerify1] = useState(false)
+    useEffect(()=>{
+        if(!isLogged()){
+            navigate("/login")
+        }else{
+            setVerify1(true)
+        }
+    })
+    if (verify1) {
+        return (
+            <div>
+                ESTE ES EL COMPONENTE Search
+            </div>
+        );
     }
-    render() {
-        return <div>SEARCH </div>;
-    }
+
 }
 export default Contact;

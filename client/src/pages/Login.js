@@ -30,8 +30,6 @@ function Login() {
     }).then(()=>{
       defaultFetch("/loggedUser", "GET").then((res) => {
         userData.setState({ ...userData.state, user: res });
-        console.log(res)
-        //setLoaded(true)
         })
     });
   }
@@ -51,6 +49,9 @@ function Login() {
       <div className="container">
         <div className="row d-flex justify-content-center">
           <div className="col-md-4">
+            <div className="form-group marginadoTop">
+            <h1>Inicia sesión en PWW</h1>
+            </div>
             <form id="loginform" onSubmit={loginSubmit}>
               <div className="form-group">
                 <label>Nombre de usuario o Email:</label>

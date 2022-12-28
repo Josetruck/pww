@@ -22,5 +22,6 @@ router.post("/passReset", user.passReset)
 
 //Images
 router.post("/insertImg", images.insert)
+router.get("/getImagesById/:id_user", images.getImagesById)
 
 module.exports = router;

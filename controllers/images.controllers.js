@@ -16,6 +16,18 @@ const image = {
             await mongoose.connection.close();
         }
 
+    },
+    getImagesById: async (req, res) => {
+        await mongoose.connect(url).catch(error => handleError(error));
+        try {
+            const { id_user } = req.params
+            console.log(req.params)
+            res.json(await Images.find({ id_user }))
+        } catch (error) {
+            res.json(error)
+        } finally {
+            await mongoose.connection.close();
+        }
     }
 }
 

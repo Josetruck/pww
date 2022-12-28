@@ -3,14 +3,17 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Cookies from 'universal-cookie';
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function UserDropdown() {
+    const navigate = useNavigate()
     const cookies = new Cookies()
     const userData = useContext(UserContext)
-    console.log(userData)
     const logout = () => {
         cookies.remove("session")
+        navigate("/")
     }
     const [user_name, setUser_name] = useState("")
     useEffect(() => {
