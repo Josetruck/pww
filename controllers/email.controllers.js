@@ -1,12 +1,13 @@
 var nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const smtpConfig = {
   host: 'smtp.ionos.es',
   port: 465,
   secure: true,
   auth: {
-    user: "info@suricatoav.es",
-    pass: "laura_guapa"
+    user: process.env.EMAIL_FROM,
+    pass: process.env.EMAIL_PASS
   }
 };
 const transporter = nodemailer.createTransport(smtpConfig);
@@ -21,7 +22,7 @@ const email = {
     var username = email.split("@")[0]
     console.log("eviando correo")
     var mailOptions = {
-      from: 'info@suricatoav.es',
+      from: process.env.EMAIL_FROM,
       to: email,
       subject: 'Verifica tu correo electrónico para PicturesWorldWide',
       text: "",
@@ -115,7 +116,7 @@ const email = {
   passrequest: async (infoJwt, user_email) => {
     var username = user_email.split("@")[0]
     var mailOptions = {
-      from: 'info@suricatoav.es',
+      from: process.env.EMAIL_FROM,
       to: user_email,
       subject: 'Cambio de contraseña: Comprobacion de identidad',
       text: "",
@@ -208,7 +209,7 @@ const email = {
   passconfirm: async (user_email) => {
     var username = user_email.split("@")[0]
     var mailOptions = {
-      from: 'info@suricatoav.es',
+      from: process.env.EMAIL_FROM,
       to: user_email,
       subject: 'Confirmación de cambio de contraseña',
       text: "",

@@ -21,6 +21,6 @@ router.post("/passRecovery", user.passRecovery)
 router.post("/passReset", user.passReset)
 
 //Images
-router.post("/upload", images.upload)
+router.post("/insertImg", images.insert)
 
 module.exports = router;

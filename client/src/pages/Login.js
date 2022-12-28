@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { defaultFetch } from "../helpers/defaultFetch";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'universal-cookie';
 import { useNavigate } from "react-router-dom";
 import Warning from "../components/warnings/Warning";
+import UserContext from "../context/UserContext";
 
 
 function Login() {
@@ -11,20 +12,27 @@ function Login() {
   const [input, setInput] = useState("");
   const [login_err, setLogin_err] = useState(false)
   const navigate = useNavigate()
+  const userData = useContext(UserContext)
+  const [user, setUser] = useState(userData.state)
 
   const handleValidation = (event) => {
     const cookies = new Cookies();
     var datos = { input, pass };
 
     defaultFetch("/login", "POST", datos).then((res) => {
-      console.log(res)
       if (res) {
-        cookies.set('session', res.cookie, { path: "/" });
+        cookies.set('session', res.cookie, { path: "/", expires: new Date('2050-01-01') });
         setLogin_err(false)
         navigate("/")
       } else {
         setLogin_err(true)
       }
+    }).then(()=>{
+      defaultFetch("/loggedUser", "GET").then((res) => {
+        userData.setState({ ...userData.state, user: res });
+        console.log(res)
+        //setLoaded(true)
+        })
     });
   }
 

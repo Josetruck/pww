@@ -6,6 +6,27 @@ const cookieParser = require('cookie-parser');
 const multer = require("multer")
 const path = require("path")
 
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "Images");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}--${file.originalname}`);
+    }
+}); 
+
+
+const upload = multer({storage: storage});
+app.post("/upload", upload.single("file"), (req, res) => {
+    console.log(req.file)
+    // Puedes utilizar req.file.filename para obtener el nombre del archivo subido
+    res.json({
+        status:true,
+        path: req.file.filename
+    });
+  });
+
 // Middlewares: 
 app.use(cookieParser());
 app.use(express.json());
@@ -17,21 +38,6 @@ app.use(cors({
 }));
 // Uso de rutas
 app.use("/", router);
-
-
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "Images");
-    },
-    filename: (req, file, cb) => {
-        console.log(file);
-        cb(null, `${Date.now()}--${file.originalname}`);
-    }
-});
-const upload = multer({storage: storage});
-app.use(upload.single("file"))
-app.get("/upload",(req,res)=> res.render("upload"))
 
 
 

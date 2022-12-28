@@ -4,6 +4,7 @@ const bcyptjs = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const sendemail = require("./email.controllers");
 const { Op } = require("sequelize")
+require('dotenv').config();
 
 const user = {
     register: async (req, res) => {
@@ -12,14 +13,14 @@ const user = {
             const pass_hash = await bcyptjs.hash(pass, 8);
             const newUser = await Users.create({ user_name, email, "pass": pass_hash });
             await profile.register(req, res, newUser.id)
-            const infoJwt = jwt.sign({ email }, "m1c4s4", {
-                expiresIn: "1000s",
+            const infoJwt = jwt.sign({ email }, process.env.WEB_TOKEN_SECRET, {
+                expiresIn: "3600s",
             });
             let cookie = {
                 user_name: newUser.dataValues.user_name,
                 id_user: newUser.dataValues.id
             }
-            const sessionJwt = jwt.sign({ cookie }, "m1c4s4");
+            const sessionJwt = jwt.sign({ cookie }, process.env.WEB_TOKEN_SECRET);
             sendemail.emailToRegister(infoJwt, email)
             res.json({ cookie: sessionJwt })
         } catch (error) {
@@ -31,10 +32,8 @@ const user = {
         const { input, pass } = req.body;
         const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         if (re.test(input)) {
-            console.log("Busca por email")
             var userfind = await Users.findOne({ where: { "email": input } });
         } else {
-            console.log("Busca por username")
             var userfind = await Users.findOne({ where: { "user_name": input } })
         }
         if (userfind) {
@@ -44,7 +43,7 @@ const user = {
                 id_user: userfind.dataValues.id
             }
             let compare = bcyptjs.compareSync(pass, hashSaved);
-            const infoJwt = jwt.sign({ cookie }, "m1c4s4");
+            const infoJwt = jwt.sign({ cookie }, process.env.WEB_TOKEN_SECRET);
             if (compare) {
                 res.cookie("session", infoJwt)
                 res.json({ cookie: infoJwt });
@@ -58,9 +57,7 @@ const user = {
     getUserData: async (req, res) => {
         try {
             let user_data = await user.getFromCookie(req)
-            console.log(user_data)
-            const userFinded = await Users.findOne({ where: { id: user_data.id_user } })
-            console.log(userFinded)
+            const userFinded = await Users.findByPk(user_data.id_user,{ attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] })
             res.json(userFinded.dataValues)
         } catch (error) {
             res.send(error)
@@ -76,7 +73,7 @@ const user = {
     searchAvaliableUser: async (req, res) => {
         try {
             const avaliable = await Users.findOne({ where: { user_name: req.body.user_name } })
-            console.log(avaliable)
+
             if (avaliable) {
                 res.json({ avaliable: false })
             } else { res.json({ avaliable: true }) }
@@ -88,8 +85,7 @@ const user = {
     getFromCookie: async (req) => {
         try {
             console.log(req.cookies)
-            var data = jwt.verify(req.cookies.session, "m1c4s4")
-            console.log(data)
+            var data = jwt.verify(req.cookies.session, process.env.WEB_TOKEN_SECRET)
             return data.cookie
         } catch (error) {
             return { error }
@@ -116,7 +112,7 @@ const user = {
     confirmEmail: async (req, res) => {
         try {
             const { email } = req.body;
-            const infoJwt = jwt.sign({ email }, "m1c4s4", {
+            const infoJwt = jwt.sign({ email }, process.env.WEB_TOKEN_SECRET, {
                 expiresIn: "1000s",
             });
             await sendemail.emailToRegister(infoJwt, email);
@@ -129,7 +125,7 @@ const user = {
         const { email } = req.body;
         const infoUser = await Users.findOne({ where: { "email": req.body.email } });
         if (infoUser) {
-            const infoJwt = jwt.sign({ email }, "m1c4s4", {
+            const infoJwt = jwt.sign({ email }, process.env.WEB_TOKEN_SECRET, {
                 expiresIn: "1000s",
             });
             sendemail.passrequest(infoJwt, email);
@@ -142,7 +138,7 @@ const user = {
         let { token, password } = req.body;
         try {
             // Verifica el token donde está el email del usuario
-            let jwtVerify = jwt.verify(token, "m1c4s4");
+            let jwtVerify = jwt.verify(token, process.env.WEB_TOKEN_SECRET);
             let email = jwtVerify.email;
             var user_password = await bcyptjs.hash(password, 8);
             const infoUser = await Users.update({ user_password }, { where: { email } });
@@ -152,7 +148,7 @@ const user = {
                 user_name: infoUser2.dataValues.user_name,
                 id_user: infoUser2.dataValues.id
             }
-            const infoJwt = jwt.sign({ cookie }, "m1c4s4");
+            const infoJwt = jwt.sign({ cookie }, process.env.WEB_TOKEN_SECRET);
             res.cookie("session", infoJwt)
             res.json({ cookie: infoJwt });
         } catch (error) {

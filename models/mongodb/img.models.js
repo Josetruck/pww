@@ -1,16 +1,16 @@
-const { Int32 } = require("mongodb");
-const mongoose = require("mongoose");
+
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 
-let imgSchema= new Schema({
-  
+let imgSchema = new Schema({
+
     id_user: String,
-    location: String,
+    location: Array,
     date: String,
     url: String,
-    likes:Int32,
-    coments: [{ id_user: String, date: String, text: String,}]
+    likes: Number,
+    coments: [{ id_user: String, date: String, text: String, }]
 });
- 
+
 const imagesModel = mongoose.model("images", imgSchema);
 module.exports = imagesModel;
