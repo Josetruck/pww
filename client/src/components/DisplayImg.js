@@ -1,19 +1,22 @@
 import Nav from 'react-bootstrap/Nav';
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import MapImg from './MapImg';
 import GridImg from './GridImg';
 import { defaultFetch } from '../helpers/defaultFetch';
-import { useParams } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 
 function DisplayImg(props) {
   const [view, setview] = useState(null)
-  const [usercoords, setCoords] = useState([50.4214943, -3.6927735])
   const [userImages, setUserImages] = useState(null)
+  const { user, setUser } = useContext(UserContext)
+  const [usercoords, setCoords] = useState(user.coordinates)
+  console.log("context:", user)
+
   useEffect(() => {
-    defaultFetch(`/getImagesById/${props.id_user}`).then((res) => {
+    defaultFetch(`/getImagesById/${user.id}`).then((res) => {
       setUserImages(res)
     })
-  }, [view])
+  },[view])
 
   useEffect(() => {
     setTimeout(() => {
@@ -26,6 +29,8 @@ function DisplayImg(props) {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         setCoords([position.coords.latitude, position.coords.longitude])
+        user.coordinates = [position.coords.latitude, position.coords.longitude];
+        setUser(user)
       });
     } else {
       console.warn("Tu navegador no soporta Geolocalización!! ");

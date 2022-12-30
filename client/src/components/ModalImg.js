@@ -61,6 +61,9 @@ function ModalImg(props) {
                 <Modal.Body>
                     <img className='imgModal' src={`http://localhost:5000/Images/${image.id_user}/${image.url}`} alt={image.alt} />
                     <div className='imgFoot'>
+                        <div>
+                            <h3>{image.title}</h3>
+                        </div>
                         <h4>{image.date}</h4>
                         <p>{address}</p>
                     </div>

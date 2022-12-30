@@ -6,6 +6,7 @@ let imgSchema = new Schema({
 
     id_user: String,
     location: Array,
+    title: String,
     date: String,
     url: String,
     likes: Number,

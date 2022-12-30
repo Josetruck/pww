@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { defaultFetch } from "../helpers/defaultFetch";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'universal-cookie';
 import { useNavigate } from "react-router-dom";
 import Warning from "../components/warnings/Warning";
-import UserContext from "../context/UserContext";
 
 
 function Login(props) {
@@ -12,8 +11,6 @@ function Login(props) {
   const [input, setInput] = useState("");
   const [login_err, setLogin_err] = useState(false)
   const navigate = useNavigate()
-  const userData = useContext(UserContext)
-  const { setState } = userData;
 
   const handleValidation = (event) => {
     const cookies = new Cookies();

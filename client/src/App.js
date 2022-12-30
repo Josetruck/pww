@@ -1,13 +1,12 @@
 import React from 'react';
 import UserContext from './context/UserContext';
-import { BrowserRouter, Link } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import MainComponent from "./components/Main";
 import Navigationbar from "./components/Navigationbar";
 import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css"
 import 'leaflet/dist/leaflet.css';
-import { set } from 'mongoose';
 
 
 function App() {
@@ -23,6 +22,18 @@ function App() {
             fetchUser()
           }, 1000);
     },[])
+
+    useEffect(() => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          console.log("user", user)
+          user.coordinates = [position.coords.latitude, position.coords.longitude];
+          setUser(user)
+        });
+      } else {
+        console.warn("Tu navegador no soporta Geolocalización!! ");
+      }
+    }, [user])
 
     if (!user) {
         return <p>Cargando datos...</p>;

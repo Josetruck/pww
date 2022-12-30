@@ -1,4 +1,4 @@
-import React, { useContext, useState,useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ExifParser from 'exif-parser';
@@ -10,43 +10,43 @@ function UploadImage() {
     const [metadata, setMetadata] = useState(null);
     const [address, setAddress] = useState(null);
     const [imagen, setImagen] = useState(null);
+    const [title, setTitle] = useState(null)
     const [verify1, setVerify1] = useState(false)
     const navigate = useNavigate();
-    const user = useContext(UserContext)
-    const id_user = user.user.id
+    const {user} = useContext(UserContext)
+    const id_user = user.id
 
     //Obtenemos la localización de la imagen mediante geocodificación inversa.
-    const fetchAddress = async (lat, lon) => {
+    const fetchAddress = async (coordinates) => {
         const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
-            );
-            const data = await response.json();
-            setAddress(data.display_name);
-        };
+            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates[0]}&lon=${coordinates[1]}`
+        );
+        const data = await response.json();
+        setAddress(data.display_name);
+    };
 
-        
-        
-        const handleImageChange = (event) => {
-            const file = event.target.files[0];
-            console.log(file)
-            
-            
-            setImagen({
-                file: file,
-                imagePreviewUrl: URL.createObjectURL(file)
-            });
-            const reader = new FileReader();
-            reader.onload = () => {
-                // Crea un parser para el archivo de imagen
-                const parser = ExifParser.create(reader.result);
-                
-                // Parsea los metadatos EXIF del archivo de imagen
-                const result = parser.parse();
-                console.log(result.tags)
-                
-                // Accede a los metadatos a través del objeto result
-                const dateTimestamp = result.tags.DateTimeOriginal
-                const date = new Date(dateTimestamp * 1000);
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        console.log(file)
+
+
+        setImagen({
+            file: file,
+            imagePreviewUrl: URL.createObjectURL(file)
+        });
+        const reader = new FileReader();
+        reader.onload = () => {
+            // Crea un parser para el archivo de imagen
+            const parser = ExifParser.create(reader.result);
+
+            // Parsea los metadatos EXIF del archivo de imagen
+            const result = parser.parse();
+            console.log(result.tags)
+
+            // Accede a los metadatos a través del objeto result
+            const dateTimestamp = result.tags.DateTimeOriginal
+            const date = new Date(dateTimestamp * 1000);
             const dateString = date.toLocaleDateString("es-ES", {
                 day: "2-digit",
                 month: "2-digit",
@@ -56,8 +56,12 @@ function UploadImage() {
             });
             const gpsLat = result.tags.GPSLatitude;
             const gpsLon = result.tags.GPSLongitude;
-            const coordinates = [gpsLat, gpsLon]
-            fetchAddress(gpsLat, gpsLon);
+            var coordinates = [gpsLat, gpsLon]
+            // Accede a las coordenadas del dispositivo en caso de que no estén disponibles en los metadatos
+            if (!gpsLat) {
+                coordinates = user.coordinates
+        }
+            fetchAddress(coordinates);
             setMetadata({
                 coordinates,
                 dateString,
@@ -76,32 +80,32 @@ function UploadImage() {
             headers: {
                 id_user: id_user
             }
-        })
-        .then(res => res.json()).then(res => {
-            const url = res.path;
-            
-            const datos = {
-                id_user: id_user,
-                date: metadata.dateString,
-                url: url,
-                location: metadata.coordinates
-            }
-            console.log(datos)
-            defaultFetch("/insertImg", "POST", datos).then(res => {
-                console.log(res)
-                if (res === "ok") {
-                    navigate("/")
+        }).then(res => res.json()).then(res => {
+                const url = res.path;
+
+                const datos = {
+                    id_user: id_user,
+                    date: metadata.dateString,
+                    title: title,
+                    url: url,
+                    location: metadata.coordinates
                 }
-            })
-        });
+                console.log("titulo", title, datos)
+                defaultFetch("/insertImg", "POST", datos).then(res => {
+                    console.log(res)
+                    if (res === "ok") {
+                        navigate("/")
+                    }
+                })
+            });
     }
-    useEffect(()=>{
-        if(!isLogged()){
+    useEffect(() => {
+        if (!isLogged()) {
             navigate("/login")
-        }else{
+        } else {
             setVerify1(true)
         }
-    })
+    },[navigate])
     if (verify1) {
         return (
             <div className="App">
@@ -122,7 +126,10 @@ function UploadImage() {
                                         onChange={handleImageChange}
                                     />
                                 </div>
-
+                                <div>
+                                    <label>Título</label>
+                                    <input type="text" className="form-control" onChange={(e) => setTitle(e.target.value)} />
+                                </div>
                                 {imagen && <div className="form-group centrado marginadoTop"><img src={imagen.imagePreviewUrl} alt="Preview" className="imgPreview" /></div>}
                                 <div className="form-group marginadoTop">
                                     <button type="submit" className="btn btn-primary" >
@@ -144,4 +151,4 @@ function UploadImage() {
         );
     }
 }
-    export default UploadImage;
+export default UploadImage;

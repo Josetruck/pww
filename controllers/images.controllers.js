@@ -6,9 +6,9 @@ const image = {
     insert: async (req, res) => {
         await mongoose.connect(url).catch(error => handleError(error));
         try {
-            const { location, date, url, id_user } = req.body
+            const { location, date, url, id_user, title } = req.body
             console.log(req.body)
-            await Images.create({ id_user, location, date, url })
+            await Images.create({ id_user, location, date, url , title})
             res.json("ok")
         } catch (error) {
             res.json(error)
