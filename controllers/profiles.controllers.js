@@ -16,7 +16,7 @@ const profile = {
       }
   },
 
-/*   update: async (req, res) => {
+  update: async (req, res) => {
     let user_data = await user.getFromCookie(req,res)
     await mongoose.connect(url).catch(error => handleError(error));
     console.log("Mongoose ok")
@@ -31,7 +31,18 @@ const profile = {
       await mongoose.connection.close();
       console.log("pos se ha cerrao")
     }
-  } */
+  },  
+  getById: async (id_user) => {
+    try {
+      await mongoose.connect(url).catch(error => handleError(error));
+      return await Profile.findOne({id_user})
+    } catch (error) {
+      res.json(error)
+    } finally {
+      await mongoose.connection.close();
+    }
+},
+
 };
 
 module.exports = profile;

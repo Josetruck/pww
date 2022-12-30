@@ -22,7 +22,7 @@ class Main extends Component {
         <div>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/login" element={<Login setUser={this.props.setUser}/>} />
                 <Route path="/clan" element={<Clan />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/preregister" element={<PreRegister />} />

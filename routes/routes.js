@@ -3,6 +3,7 @@ const profile = require("../controllers/profiles.controllers");
 const user = require("../controllers/users.controllers")
 const clans = require("../controllers/clans.controllers");
 const images = require("../controllers/images.controllers");
+const image = require("../controllers/images.controllers");
 
 
 
@@ -23,5 +24,7 @@ router.post("/passReset", user.passReset)
 //Images
 router.post("/insertImg", images.insert)
 router.get("/getImagesById/:id_user", images.getImagesById)
+router.post("/addComment", images.addComment)
+router.post("/deleteComent", images.deleteComment)
 
 module.exports = router;

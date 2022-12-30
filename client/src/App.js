@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css"
 import 'leaflet/dist/leaflet.css';
+import { set } from 'mongoose';
 
 
 function App() {
@@ -16,7 +17,6 @@ function App() {
         async function fetchUser(){
             const response = await fetch('/loggedUser');
             const data = await response.json();
-            console.log(data)
             setUser(data);
           }
           setTimeout(() => {
@@ -33,7 +33,7 @@ function App() {
                         <div className="App">
                     <BrowserRouter>
                         <Navigationbar />
-                        <MainComponent />
+                        <MainComponent setUser={setUser}/>
                     </BrowserRouter>
                 </div>
       </UserContext.Provider>

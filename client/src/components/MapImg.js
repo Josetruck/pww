@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import React from 'react';
-import { Component } from 'react';
+import ModalImg from './ModalImg'
 import 'leaflet/dist/leaflet.css';
 import "../App.css"
 import { useEffect, useState } from 'react';
@@ -15,24 +15,31 @@ L.Icon.Default.mergeOptions({
 
 
 
+
 function MapImg(props) {
+  const images = props.images
 
-
-  
-
-    return <MapContainer center={props.coords} zoom={6} scrollWheelZoom={false}>
+    return (
+    <div>
+    
+    <MapContainer center={props.coords} zoom={6} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={[40.4214943, -3.6927735]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
+        />
+        
+      {images.map(image => (
+        <Marker position={image.location}>
+        <Popup> 
+          <div> 
+          <ModalImg img={image}/>
+          </div>
         </Popup>
       </Marker>
-
-    </MapContainer>
+      ))}
+    </MapContainer></div>)
   }
+  
 
 
 export default MapImg

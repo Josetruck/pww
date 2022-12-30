@@ -3,7 +3,8 @@ const profile = require("./profiles.controllers")
 const bcyptjs = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const sendemail = require("./email.controllers");
-const { Op } = require("sequelize")
+const { Op } = require("sequelize");
+
 require('dotenv').config();
 
 const user = {
@@ -58,7 +59,11 @@ const user = {
         try {
             let user_data = await user.getFromCookie(req)
             const userFinded = await Users.findByPk(user_data.id_user,{ attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] })
-            res.json(userFinded.dataValues)
+            const profileFinded = await profile.getById(user_data.id_user)
+            const user_datavalues = userFinded.dataValues
+            console.log(profileFinded)
+            const userData = Object.assign({},user_datavalues, profileFinded)
+            res.json(userData)
         } catch (error) {
             res.send(error)
         }

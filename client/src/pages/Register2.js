@@ -28,7 +28,7 @@ function Register2() {
     if (user_nameAvaliable && passMatch) {
       defaultFetch("/register", "POST", datos).then(res=>{
         if(res){
-        cookies.set('session', res.cookie,{path:"/"});
+        cookies.set('session', res.cookie, { path: "/", expires: new Date('2050-01-01') });
         navigate("/")
       } else {
         setError(true)

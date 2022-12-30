@@ -9,7 +9,7 @@ let imgSchema = new Schema({
     date: String,
     url: String,
     likes: Number,
-    coments: [{ id_user: String, date: String, text: String, }]
+    coments: [{ id_user: String, user_name: String, date: String, text: String, }]
 });
 
 const imagesModel = mongoose.model("images", imgSchema);

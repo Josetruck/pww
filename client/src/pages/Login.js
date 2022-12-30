@@ -7,13 +7,13 @@ import Warning from "../components/warnings/Warning";
 import UserContext from "../context/UserContext";
 
 
-function Login() {
+function Login(props) {
   const [pass, setPass] = useState("");
   const [input, setInput] = useState("");
   const [login_err, setLogin_err] = useState(false)
   const navigate = useNavigate()
   const userData = useContext(UserContext)
-  const [user, setUser] = useState(userData.state)
+  const { setState } = userData;
 
   const handleValidation = (event) => {
     const cookies = new Cookies();
@@ -29,7 +29,8 @@ function Login() {
       }
     }).then(()=>{
       defaultFetch("/loggedUser", "GET").then((res) => {
-        userData.setState({ ...userData.state, user: res });
+        console.log(res)
+        props.setUser(res);
         })
     });
   }

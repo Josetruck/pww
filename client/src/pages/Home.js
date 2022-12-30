@@ -7,35 +7,30 @@ import { useContext } from "react";
 
 
 
-function Home() {
-    const [user, setUser] = useState(false)
+function Home(props) {
     const navigate = useNavigate()
     const userData = useContext(UserContext)
     var verify1 = isLogged()
-    const [user_name, setUser_name] = useState("")
-    const [twkd,setTwkd]=useState("")
-    const [id_user, setId_user]=useState("")
+    const [user_name, setUser_name] = useState(null)
+    const [twkd,setTwkd]=useState(null)
+    const [id_user, setId_user]=useState(null)
     
     useEffect(() => {
-        if (userData.user != null) {
             setUser_name(userData.user.user_name)
             setTwkd(userData.user.this_week_distance)
             setId_user(userData.user.id)
             console.log(userData)
-        }
-        setTimeout(() => {
-            setUser(true)
-        }, 1000);
-    }, [user])
+    })
+
+    if(id_user === null){
+        return <p>Cargando datos...</p>;
+    }
 
 
 
     if (verify1) {
         return (<div className="Home">
             <div>
-            <div className="profileImg">
-                <img src="" alt="imagen de perfil" />
-            </div>
             <div className="userInfo">
                 <h1 className="userName">{user_name}</h1>
                 <p id="weekDistance">{twkd} km</p>
