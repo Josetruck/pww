@@ -35,7 +35,7 @@ function Home(props) {
                 <h1 className="userName">{user_name}</h1>
                 <p id="weekDistance">{twkd} km</p>
             </div>
-            <DisplayImg id_user={id_user}/>
+            <DisplayImg id_user={id_user} user={userData.user}/>
             </div>
         </div>)
     } else {

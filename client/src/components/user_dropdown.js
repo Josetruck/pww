@@ -11,9 +11,12 @@ function UserDropdown() {
     const navigate = useNavigate()
     const cookies = new Cookies()
     const userData = useContext(UserContext)
+    //Logout
     const logout = () => {
         cookies.remove("session")
         navigate("/")
+        window.location.reload()
+        console.log("la borro")
     }
     const [user_name, setUser_name] = useState("")
     useEffect(() => {

@@ -1,22 +1,27 @@
 import Nav from 'react-bootstrap/Nav';
-import { useEffect, useState, useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import MapImg from './MapImg';
 import GridImg from './GridImg';
 import { defaultFetch } from '../helpers/defaultFetch';
 import UserContext from '../context/UserContext';
 
+
 function DisplayImg(props) {
   const [view, setview] = useState(null)
   const [userImages, setUserImages] = useState(null)
-  const { user, setUser } = useContext(UserContext)
-  const [usercoords, setCoords] = useState(user.coordinates)
-  console.log("context:", user)
+  const {user, setUser} = useContext(UserContext)
+  const [usercoords, setCoords] = useState(null)
+  const [load, setLoad] = useState(false)
+
 
   useEffect(() => {
-    defaultFetch(`/getImagesById/${user.id}`).then((res) => {
+    if(!load)
+    defaultFetch(`/getImagesById/${props.id_user}`).then((res) => {
       setUserImages(res)
+      setLoad(true)
+      console.log("hace fetch a imagenes")
     })
-  },[view])
+  })
 
   useEffect(() => {
     setTimeout(() => {
@@ -53,9 +58,9 @@ function DisplayImg(props) {
           </Nav.Item>
         </Nav>
         {view === "map"
-          ? <div id='map'><MapImg coords={usercoords} images={userImages}></MapImg></div> : null}
+          ? <div id='map'><MapImg coords={usercoords} images={userImages} setLoad={setLoad}></MapImg></div> : null}
         {view === "grid"
-          ? <div id="grid"><GridImg images={userImages} /></div> : null}
+          ? <GridImg images={userImages} setLoad={setLoad}/> : null}
 
       </div>
     );

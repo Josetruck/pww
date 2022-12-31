@@ -58,11 +58,23 @@ const user = {
     getUserData: async (req, res) => {
         try {
             let user_data = await user.getFromCookie(req)
-            const userFinded = await Users.findByPk(user_data.id_user,{ attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] })
+            const userFinded = await Users.findByPk(user_data.id_user, { attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] })
             const profileFinded = await profile.getById(user_data.id_user)
             const user_datavalues = userFinded.dataValues
             console.log(profileFinded)
-            const userData = Object.assign({},user_datavalues, profileFinded)
+            const userData = Object.assign({}, user_datavalues, profileFinded)
+            res.json(userData)
+        } catch (error) {
+            res.send(error)
+        }
+    },    
+    getUserById: async (req, res) => {
+        try {
+            const userFinded = await Users.findByPk(req.params.id, { attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] })
+            const profileFinded = await profile.getById(req.params.id)
+            const user_datavalues = userFinded.dataValues
+            console.log(profileFinded)
+            const userData = Object.assign({}, user_datavalues, profileFinded)
             res.json(userData)
         } catch (error) {
             res.send(error)
@@ -70,7 +82,7 @@ const user = {
     },
     searchUser: async (req, res) => {
         try {
-            res.json(await Users.findAll({ attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] }, { where: { user_name: { [Op.like]: `%${req.body.user_name}%` } } }))
+            res.json(await Users.findAll({ where: { user_name: { [Op.like]: `%${req.body.user_name}%` } } }))
         } catch (error) {
             res.send(error)
         }

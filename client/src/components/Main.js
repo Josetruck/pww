@@ -11,6 +11,7 @@ import Passrecovery from "../pages/Passrecovery";
 import PassReset from "../pages/PassReset";
 import PassRequestSuccess from "../pages/PassRequestSuccess";
 import UploadImage from "../pages/UploadImg";
+import Profile from "../pages/Profile";
 
 class Main extends Component {
     constructor(props) {
@@ -32,6 +33,7 @@ class Main extends Component {
                 <Route path="/passreset/:token" element={<PassReset />} />
                 <Route path="/passrequestsuccess" element={<PassRequestSuccess />} />
                 <Route path="/uploadimage" element={<UploadImage/>} />
+                <Route path="/profile/:id_profile" element={<Profile/>} />
 
             </Routes>
         </div>

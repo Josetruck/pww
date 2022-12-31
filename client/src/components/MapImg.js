@@ -28,11 +28,11 @@ function MapImg(props) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-      {images.map(image => (
-        <Marker position={image.location}>
+      {images.map((image, i) => (
+        <Marker position={image.location} key={i}>
         <Popup> 
           <div> 
-          <ModalImg img={image}/>
+          <ModalImg classImg="imgMap" img={image} setLoad={props.setLoad} />
           </div>
         </Popup>
       </Marker>

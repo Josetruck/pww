@@ -20,6 +20,7 @@ router.get("/emailexists/:email", user.emailExists)
 router.post("/sendEmailVerify", user.confirmEmail)
 router.post("/passRecovery", user.passRecovery)
 router.post("/passReset", user.passReset)
+router.get("/getUserById/:id", user.getUserById)
 
 //Images
 router.post("/insertImg", images.insert)

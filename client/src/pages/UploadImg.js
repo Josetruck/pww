@@ -65,6 +65,7 @@ function UploadImage() {
             setMetadata({
                 coordinates,
                 dateString,
+                address
             });
         };
         reader.readAsArrayBuffer(file);
