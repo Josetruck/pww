@@ -26,8 +26,6 @@ function Home(props) {
         return <p>Cargando datos...</p>;
     }
 
-
-
     if (verify1) {
         return (<div className="Home">
             <div>

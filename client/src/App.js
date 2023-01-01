@@ -10,45 +10,45 @@ import 'leaflet/dist/leaflet.css';
 
 
 function App() {
-    const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
-    useEffect(()=>{
-        async function fetchUser(){
-            const response = await fetch('/loggedUser');
-            const data = await response.json();
-            setUser(data);
-          }
-          setTimeout(() => {
-            fetchUser()
-          }, 1000);
-    },[])
+  useEffect(() => {
+    async function fetchUser() {
+      const response = await fetch('/loggedUser');
+      const data = await response.json();
+      setUser(data);
+    }
+    setTimeout(() => {
+      fetchUser()
+    }, 1000);
+  }, [])
 
-    useEffect(() => {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          console.log("user", user)
-          user.coordinates = [position.coords.latitude, position.coords.longitude];
-          setUser(user)
-        });
-      } else {
-        console.warn("Tu navegador no soporta Geolocalización!! ");
-      }
-    }, [user])
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log("user", user)
+        user.coordinates = [position.coords.latitude, position.coords.longitude];
+        setUser(user)
+      });
+    } else {
+      console.warn("Tu navegador no soporta Geolocalización!! ");
+    }
+  }, [user])
 
-    if (!user) {
-        return <p>Cargando datos...</p>;
-      }
-  
+  if (!user) {
+    return <p>Cargando datos...</p>;
+  } else {
     return (
       <UserContext.Provider value={{ user, setUser }}>
-                        <div className="App">
-                    <BrowserRouter>
-                        <Navigationbar />
-                        <MainComponent setUser={setUser}/>
-                    </BrowserRouter>
-                </div>
+        <div className="App">
+          <BrowserRouter>
+            <Navigationbar />
+            <MainComponent setUser={setUser} />
+          </BrowserRouter>
+        </div>
       </UserContext.Provider>
     );
   }
-  
-  export default App;
+}
+
+export default App;

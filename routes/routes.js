@@ -4,6 +4,7 @@ const user = require("../controllers/users.controllers")
 const clans = require("../controllers/clans.controllers");
 const images = require("../controllers/images.controllers");
 const image = require("../controllers/images.controllers");
+const req_friend = require("../controllers/req_friend.controllers")
 
 
 
@@ -27,5 +28,9 @@ router.post("/insertImg", images.insert)
 router.get("/getImagesById/:id_user", images.getImagesById)
 router.post("/addComment", images.addComment)
 router.post("/deleteComent", images.deleteComment)
+
+//Friend Requests
+
+router.post("/sendRequest", req_friend.newRequest)
 
 module.exports = router;

@@ -49,7 +49,7 @@ create table weekly_game(
     FOREIGN KEY (fk_id_user) references users(id)
     );
     
-create table req_friend(
+create table req_friends(
     id INT AUTO_INCREMENT,
     fk_id_from int,
     fk_id_to int,
@@ -60,7 +60,7 @@ create table req_friend(
     FOREIGN KEY (fk_id_to) references users(id)
     );
 
-    create table req_member(
+    create table req_members(
     id INT AUTO_INCREMENT,
     fk_id_from int,
     fk_id_to int,

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { defaultFetch } from "../helpers/defaultFetch";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Cookies from 'universal-cookie';
 import { useNavigate } from "react-router-dom";
 import Warning from "../components/warnings/Warning";
+import { useCookies } from 'react-cookie';
+
+
 
 
 function Login(props) {
@@ -11,14 +13,16 @@ function Login(props) {
   const [input, setInput] = useState("");
   const [login_err, setLogin_err] = useState(false)
   const navigate = useNavigate()
+  const [cookies, setCookie, removeCookie] = useCookies(['session']);
 
   const handleValidation = (event) => {
-    const cookies = new Cookies();
+    
     var datos = { input, pass };
 
     defaultFetch("/login", "POST", datos).then((res) => {
       if (res) {
-        cookies.set('session', res.cookie, { path: "/", expires: new Date('2050-01-01') });
+        setCookie('session', res.cookie, { path: "/", expires: new Date('2050-01-01') });
+        console.log("se planta la cookie")
         setLogin_err(false)
         navigate("/")
       } else {

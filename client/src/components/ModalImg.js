@@ -58,8 +58,8 @@ function ModalImg(props) {
                         <p>{image.address}</p>
                     </div>
                     {coments && <div>
-                        {coments.map((comment) => {
-                            return <div>
+                        {coments.map((comment, i) => {
+                            return <div key={i}>
                                 <a href={`/profile/${comment.id_user}`}><h4>{comment.user_name}</h4></a>
                                 <h6>{comment.date}</h6>
 

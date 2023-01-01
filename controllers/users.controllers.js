@@ -46,7 +46,7 @@ const user = {
             let compare = bcyptjs.compareSync(pass, hashSaved);
             const infoJwt = jwt.sign({ cookie }, process.env.WEB_TOKEN_SECRET);
             if (compare) {
-                res.cookie("session", infoJwt)
+                //res.cookie("session", infoJwt)
                 res.json({ cookie: infoJwt });
             } else {
                 res.json(false);

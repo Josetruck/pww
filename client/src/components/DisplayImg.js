@@ -26,6 +26,7 @@ function DisplayImg(props) {
   useEffect(() => {
     setTimeout(() => {
       setview("grid")
+      setLoad(false)
     }, 1000);
   }, [])
 
