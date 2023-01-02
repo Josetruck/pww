@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import UserContext from '../context/UserContext';
+import Badge from 'react-bootstrap/esm/Badge';
 
 
 
@@ -68,7 +69,7 @@ function ModalReq(props) {
         <>
             <div onClick={handleShow}>
                 Solicitudes{props.numNotifications > 0 && (
-                    <span className="badge badge-pill badge-danger">{props.numNotifications}</span>
+                    <Badge pill bg="danger">{props.numNotifications}</Badge>
                 )}
             </div>
 

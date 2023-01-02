@@ -1,6 +1,15 @@
+
 .leaflet-container{
     width: 100vw;
     height: 100vh;
+}
+.container{
+    display: flex;
+    justify-content: space-around;
+}
+.me-auto.navbar-nav{
+display: flex;
+justify-content: space-around;
 }
 .form-group, .row{
     padding: 0px 10px;
@@ -29,9 +38,6 @@ justify-items: center;
 }
 .logoNav{
     height: 7vh;
-}
-.navSpace{
-    width: 6vw;
 }
 .grid{
     display: grid;
@@ -71,12 +77,37 @@ box-shadow: 3px;
 margin: 10px 40px;
 padding: 2%;
 }
-.badge{
-    background-color: red;
-}
+
 .itemText{
     background-color: lightgray;
     margin: 2px;
     border-radius: 10px;
 
+}
+.userInfo{
+    margin:15px 10px;
+}
+.card{
+   margin: 5px 10px;
+}
+
+
+.badgeNotif{
+    position: relative;
+    left : 90%;
+    z-index: 3;
+    top: 14px
+}
+
+.dropdown{
+    position: absolute;
+top:-7px;
+right: 1%;
+}
+
+
+.iconNav{
+    position: relative;
+    color: white;
+    font-size: large;
 }

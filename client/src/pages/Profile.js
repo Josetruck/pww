@@ -67,7 +67,10 @@ function Profile() {
                 {(!isFriend && !sended)&& <button className="btn btn-primary" onClick={sendRequest}>Añadir como amigo</button>}
                 {sended&&<p>Solicitud enviada</p>}
             </div>
-            <DisplayImg id_user={id_profile} />
+            {isFriend?<DisplayImg id_user={id_profile} />:<div className="card">
+            <div className="card-body">
+            <h3>No puedes ver este perfil</h3>
+            <p>{profile.user_name} no es tu amigo o aún no ha aceptado tu petición de amistad.</p></div></div>}
             </div>)
         } else {
             return <p>Cargando datos...</p>
