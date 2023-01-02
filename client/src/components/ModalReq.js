@@ -16,13 +16,16 @@ function ModalReq(props) {
     useEffect(() => {
         if (!reqload) {
             fetch(`/getUserRequestIn/${user.id}`).then(res => res.json()).then(async (res) => {
-                const requestInfo = await res.map(request => {
-                    const requestModif = request;
-                    fetch(`/getUserById/${request.fk_id_from}`).then(e => e.json()).then(e => {
-                        requestModif.user_name = e.user_name
-                    })
-                    return requestModif
+                const requestInfo = await res.filter(request => {
+                    if (!request.status) {
+                        const requestModif = request;
+                        fetch(`/getUserById/${request.fk_id_from}`).then(e => e.json()).then(e => {
+                            requestModif.user_name = e.user_name
+                        })
+                        return requestModif
+                    }
                 })
+                console.log(requestInfo)
                 setRequests(requestInfo)
                 setReqload(true)
             })
@@ -74,7 +77,7 @@ function ModalReq(props) {
                 </Modal.Header>
                 <Modal.Body>
                     {requests && requests.map((request, i) => {
-                        if (request.req_status != "accepted") {
+                        if (!request.req_status) {
                             return <div key={i}>
                                 <a href={`/profile/${request.fk_id_from}`}><h4>{request.user_name}</h4></a>
                                 <p>{request.req_date}</p>

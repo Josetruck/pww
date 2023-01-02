@@ -29,7 +29,6 @@ const user = {
         }
     },
     login: async (req, res) => {
-        console.log(req.query.url);
         const { input, pass } = req.body;
         const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         if (re.test(input)) {
@@ -61,7 +60,6 @@ const user = {
             const userFinded = await Users.findByPk(user_data.id_user, { attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] })
             const profileFinded = await profile.getById(user_data.id_user)
             const user_datavalues = userFinded.dataValues
-            console.log(profileFinded)
             const userData = Object.assign({}, user_datavalues, profileFinded)
             res.json(userData)
         } catch (error) {
@@ -73,7 +71,6 @@ const user = {
             const userFinded = await Users.findByPk(req.params.id, { attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] })
             const profileFinded = await profile.getById(req.params.id)
             const user_datavalues = userFinded.dataValues
-            console.log(profileFinded)
             const userData = Object.assign({}, user_datavalues, profileFinded)
             res.json(userData)
         } catch (error) {
@@ -101,7 +98,6 @@ const user = {
     },
     getFromCookie: async (req) => {
         try {
-            console.log(req.cookies)
             var data = jwt.verify(req.cookies.session, process.env.WEB_TOKEN_SECRET)
             return data.cookie
         } catch (error) {

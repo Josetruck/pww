@@ -9,19 +9,14 @@ import { useContext } from "react";
 
 function Home(props) {
     const navigate = useNavigate()
-    const userData = useContext(UserContext)
-    var verify1 = isLogged()
-    const [user_name, setUser_name] = useState(null)
-    const [twkd,setTwkd]=useState(null)
-    const [id_user, setId_user]=useState(null)
-    
-    useEffect(() => {
-            setUser_name(userData.user.user_name)
-            setTwkd(userData.user.this_week_distance)
-            setId_user(userData.user.id)
+    const {user, setUser}= useContext(UserContext)
+    const [verify1, setVerify1] = useState(null)
+
+    useEffect(()=>{
+        setVerify1(isLogged())
     })
 
-    if(id_user === null){
+    if(!user){
         return <p>Cargando datos...</p>;
     }
 
@@ -29,10 +24,10 @@ function Home(props) {
         return (<div className="Home">
             <div>
             <div className="userInfo">
-                <h1 className="userName">{user_name}</h1>
-                <p id="weekDistance">{twkd} km</p>
+                <h1 className="userName">{user.user_name}</h1>
+                <p id="weekDistance">{user.twkd} km</p>
             </div>
-            <DisplayImg id_user={id_user} user={userData.user}/>
+            <DisplayImg id_user={user.id} user={user}/>
             </div>
         </div>)
     } else {

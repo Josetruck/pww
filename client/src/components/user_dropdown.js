@@ -11,29 +11,29 @@ import ModalReq from './ModalReq';
 function UserDropdown(props) {
     const [cookies, setCookie, removeCookie] = useCookies(['session']);
     const navigate = useNavigate()
-    const {user, setUser} = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
 
     //Logout
     const logout = () => {
-        removeCookie("session",{ path: '/' })
+        removeCookie("session", { path: '/' })
         navigate("/")
-        setUser(null)
+        setUser("")
     }
-    useEffect(()=>{
+    useEffect(() => {
         setUser(user)
     })
-    
-    return (
-        <DropdownButton id="dropdown-item-button" title="User">
 
-            {user &&<Dropdown.ItemText>{user.user_name}</Dropdown.ItemText> }
-            
-            <Dropdown.Item as="button">Mi perfil</Dropdown.Item>
-            <Dropdown.Item as="button"><ModalReq numNotifications={props.numNotifications} setLoad={props.setLoad}></ModalReq></Dropdown.Item>
-           
-            <Dropdown.Item as="button" onClick={() => logout()}>Cerrar sesión</Dropdown.Item>
-            
-        </DropdownButton>
+    return (
+
+        <Dropdown alignRight>
+            <DropdownButton id="dropdown-basic" title="Menu">
+                    {user && <Dropdown.ItemText className='itemText dropdown-item-right'>{user.user_name}</Dropdown.ItemText>}
+
+                    <Dropdown.Item as="button" className='dropdown-item-right'>Mi perfil</Dropdown.Item>
+                    <Dropdown.Item as="button" className='dropdown-item-right'><ModalReq numNotifications={props.numNotifications} setLoad={props.setLoad}></ModalReq></Dropdown.Item>
+                    <Dropdown.Item as="button" onClick={() => logout()} className='dropdown-item-right'>Cerrar sesión</Dropdown.Item>
+            </DropdownButton>
+        </Dropdown>
     );
 }
 

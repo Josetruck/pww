@@ -26,14 +26,13 @@ function App() {
   useEffect(() => {
     async function fetchUser() {
       const response = await fetch('/loggedUser');
+      console.log(response.status != 500)
       const data = await response.json();
       setUser(data);
     }
-
-    setTimeout(() => {
+    if(!user){
       fetchUser()
-    }, 1000)
-
+    }
   })
 
 

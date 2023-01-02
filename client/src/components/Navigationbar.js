@@ -16,12 +16,12 @@ function Navigationbar() {
 useEffect(()=>{
   function getNotifs(){
     fetch(`/getUserRequestIn/${user.id}`).then(res=>res.json()).then(res=>{
-      console.log(res)
-      let notif = res.map((request)=>{
+      let notif = res.filter((request)=>{
         if(request.req_status == null){
           return request
         }
       })
+      console.log(notif)
       if(notif[0] == undefined){
       setNumNotifications(null)
       } else {
@@ -29,10 +29,12 @@ useEffect(()=>{
       }
     })
   }
+  getNotifs();
   setTimeout(() => {
     getNotifs()
   }, 2000);
 },[load])
+
 
   return (
    

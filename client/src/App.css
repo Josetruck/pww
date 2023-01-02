@@ -74,3 +74,9 @@ padding: 2%;
 .badge{
     background-color: red;
 }
+.itemText{
+    background-color: lightgray;
+    margin: 2px;
+    border-radius: 10px;
+
+}
