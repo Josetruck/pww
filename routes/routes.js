@@ -32,5 +32,10 @@ router.post("/deleteComent", images.deleteComment)
 //Friend Requests
 
 router.post("/sendRequest", req_friend.newRequest)
+router.get("/getUserRequestIn/:id", req_friend.getUserRequestIn)
+router.get("/getUserRequestOut/:id",req_friend.getUserRequestOut)
+router.post("/requestResponse", req_friend.requestResponse)
+
+
 
 module.exports = router;

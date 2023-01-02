@@ -19,7 +19,6 @@ function Home(props) {
             setUser_name(userData.user.user_name)
             setTwkd(userData.user.this_week_distance)
             setId_user(userData.user.id)
-            console.log(userData)
     })
 
     if(id_user === null){

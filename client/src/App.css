@@ -71,3 +71,6 @@ box-shadow: 3px;
 margin: 10px 40px;
 padding: 2%;
 }
+.badge{
+    background-color: red;
+}

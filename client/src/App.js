@@ -11,22 +11,10 @@ import 'leaflet/dist/leaflet.css';
 
 function App() {
   const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    async function fetchUser() {
-      const response = await fetch('/loggedUser');
-      const data = await response.json();
-      setUser(data);
-    }
-    setTimeout(() => {
-      fetchUser()
-    }, 1000);
-  }, [])
-
+  
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log("user", user)
         user.coordinates = [position.coords.latitude, position.coords.longitude];
         setUser(user)
       });
@@ -34,6 +22,20 @@ function App() {
       console.warn("Tu navegador no soporta Geolocalización!! ");
     }
   }, [user])
+
+  useEffect(() => {
+    async function fetchUser() {
+      const response = await fetch('/loggedUser');
+      const data = await response.json();
+      setUser(data);
+    }
+
+    setTimeout(() => {
+      fetchUser()
+    }, 1000)
+
+  })
+
 
   if (!user) {
     return <p>Cargando datos...</p>;

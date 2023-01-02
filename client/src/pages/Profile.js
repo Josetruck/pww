@@ -14,7 +14,7 @@ function Profile() {
     var verify1 = isLogged()
     const { id_profile } = useParams()
     const [profile, setProfile] = useState(null)
-    const {user, setUser} = useContext(UserContext)
+    const {user} = useContext(UserContext)
     const [isFriend, setIsFriend] = useState(false)
     const [sended, setSended] = useState(false)
     
@@ -23,10 +23,24 @@ function Profile() {
         fetch(`/getUserById/${id_profile}`).then(res=>res.json()).then(res=>setProfile(res))
     })
     
-    const friend_list=user._doc.friend_list
-    if(friend_list.includes(id_profile)){
-        setIsFriend(true)
-    }
+    useEffect(()=>{
+        const friend_list=user._doc.friend_list
+        if(friend_list.includes(id_profile)){
+            setIsFriend(true)
+        }
+        fetch(`/getUserRequestOut/${user.id}`).then(res=>res.json())
+        .then(res=>{
+            res.forEach((element)=>{
+                if(element.fk_id_to == id_profile){
+                    setSended(true)
+                }
+            })
+        })
+
+    },[])
+    
+
+
     const sendRequest = () =>{
         fetch("/sendRequest",{
             method:"post",  
@@ -38,13 +52,11 @@ function Profile() {
               'Content-Type': 'application/json'
             }
         }).then(res=>res.json()).then((res)=>{
-            console.log(res)
             if(res){
                 setSended(true)
             }
         })
     }
-
 
     if (verify1) {
         if (profile){
@@ -52,7 +64,7 @@ function Profile() {
             <div className="userInfo">
                 <h1 className="userName">{profile.user_name}</h1>
                 <p id="weekDistance">{profile.this_week_distante} km esta semana</p>
-                {!isFriend&&<button className="btn btn-primary" onClick={sendRequest}>Añadir como amigo</button>}
+                {(!isFriend && !sended)&& <button className="btn btn-primary" onClick={sendRequest}>Añadir como amigo</button>}
                 {sended&&<p>Solicitud enviada</p>}
             </div>
             <DisplayImg id_user={id_profile} />

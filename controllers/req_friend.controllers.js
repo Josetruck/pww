@@ -26,6 +26,32 @@ const requestf = {
             console.log(error)
             res.json(false)
         }
+    },
+    getUserRequestIn: async(req,res)=>{
+        try {
+            res.json(await Req_friend.findAll({where: {fk_id_to: req.params.id}}))
+        } catch (error) {
+            res.json(error)
+        }
+    },
+    getUserRequestOut: async(req,res)=>{
+        try {
+            res.json(await Req_friend.findAll({where: {fk_id_from: req.params.id}}))
+        } catch (error) {
+            res.json(error)
+        }
+    },
+    requestResponse: async (req, res)=>{
+        try {
+            const {id , response} = req.body;
+            console.log(req.body)
+            await Req_friend.update({req_status: response}, {where:{id:id}})   
+            res.json(true) 
+        } catch (error) {
+            console.log(error)
+            res.json(false)
+        }
+
     }
 }
 
