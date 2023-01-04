@@ -12,10 +12,9 @@ import { faSearch, faUpload, faPeopleGroup } from '@fortawesome/free-solid-svg-i
 
 
 
-function Navigationbar() {
+function Navigationbar(props) {
   const [numNotifications, setNumNotifications] = useState(null)
   const { user } = useContext(UserContext)
-  const [load, setLoad] = useState(false)
 
   useEffect(() => {
     function getNotifs() {
@@ -25,7 +24,6 @@ function Navigationbar() {
             return request
           }
         })
-        console.log(notif)
         if (notif[0] == undefined) {
           setNumNotifications(null)
         } else {
@@ -36,8 +34,8 @@ function Navigationbar() {
     getNotifs();
     setTimeout(() => {
       getNotifs()
-    }, 2000);
-  }, [load])
+    }, 5000);
+  })
 
 
   return (
@@ -52,7 +50,7 @@ function Navigationbar() {
           <Nav.Link as={Link} to={"/uploadimage"}><FontAwesomeIcon icon={faUpload} className='iconNav'/></Nav.Link>
        
         </Nav>
-          <UserDropdown numNotifications={numNotifications} setLoad={setLoad} className="ml-auto">
+          <UserDropdown numNotifications={numNotifications} setLoad={props.setLoad} className="ml-auto">
           </UserDropdown>
       </Container>
     </Navbar>

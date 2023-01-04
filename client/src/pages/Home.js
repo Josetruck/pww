@@ -25,7 +25,7 @@ function Home(props) {
             <div>
             <div className="userInfo">
                 <h1 className="userName">{user.user_name}</h1>
-                <p id="weekDistance">{user.twkd} km</p>
+                <p id="weekDistance">{user.total_distance} km</p>
             </div>
             <DisplayImg id_user={user.id} user={user}/>
             </div>

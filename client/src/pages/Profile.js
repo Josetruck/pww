@@ -4,7 +4,6 @@ import { isLogged } from "../helpers/isLogged";
 import { useNavigate , useParams} from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { useContext } from "react";
-import { defaultFetch } from "../helpers/defaultFetch";
 
 
 
@@ -25,7 +24,7 @@ function Profile() {
     
     useEffect(()=>{
         const friend_list=user._doc.friend_list
-        if(friend_list.includes(id_profile)){
+        if(friend_list.includes(parseInt(id_profile))){
             setIsFriend(true)
         }
         fetch(`/getUserRequestOut/${user.id}`).then(res=>res.json())
@@ -37,7 +36,7 @@ function Profile() {
             })
         })
 
-    },[])
+    })
     
 
 
@@ -63,9 +62,9 @@ function Profile() {
         return (<div className="Home">
             <div className="userInfo">
                 <h1 className="userName">{profile.user_name}</h1>
-                <p id="weekDistance">{profile.this_week_distante} km esta semana</p>
+                <p id="weekDistance">{profile.total_distante} km esta semana</p>
                 {(!isFriend && !sended)&& <button className="btn btn-primary" onClick={sendRequest}>Añadir como amigo</button>}
-                {sended&&<p>Solicitud enviada</p>}
+                {!isFriend && sended&&<p>Solicitud enviada</p>}
             </div>
             {isFriend?<DisplayImg id_user={id_profile} />:<div className="card">
             <div className="card-body">

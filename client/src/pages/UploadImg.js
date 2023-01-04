@@ -42,18 +42,32 @@ function UploadImage() {
 
             // Parsea los metadatos EXIF del archivo de imagen
             const result = parser.parse();
-            console.log(result.tags)
+            console.log("Lo de la foto_",result.tags)
 
             // Accede a los metadatos a través del objeto result
             const dateTimestamp = result.tags.DateTimeOriginal
             const date = new Date(dateTimestamp * 1000);
-            const dateString = date.toLocaleDateString("es-ES", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit"
-            });
+            
+            //formateo de fecha
+            let year = date.getFullYear();
+            let month = date.getMonth()+1;
+            let dt = date.getDate();
+            let hh = date.getHours()
+            let mm = date.getMinutes()
+            if (dt < 10) {
+              dt = '0' + dt;
+            }
+            if (month < 10) {
+              month = '0' + month;
+            }
+            if (hh<10){
+                hh = '0'+hh;
+            }
+            if (mm<10){
+                mm = '0'+mm;
+            }
+
+            const dateString = (year+'-' + month + '-'+dt+" "+hh+":"+mm).toString();
             const gpsLat = result.tags.GPSLatitude;
             const gpsLon = result.tags.GPSLongitude;
             var coordinates = [gpsLat, gpsLon]
@@ -89,7 +103,8 @@ function UploadImage() {
                     date: metadata.dateString,
                     title: title,
                     url: url,
-                    location: metadata.coordinates
+                    location: metadata.coordinates,
+                    address: address
                 }
                 console.log("titulo", title, datos)
                 defaultFetch("/insertImg", "POST", datos).then(res => {

@@ -31,6 +31,7 @@ function Login(props) {
     }).then(()=>{
       defaultFetch("/loggedUser", "GET").then((res) => {
         props.setUser(res);
+        props.setLoad(false)
         })
     });
   }

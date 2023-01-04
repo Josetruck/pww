@@ -11,6 +11,7 @@ import 'leaflet/dist/leaflet.css';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [load, setLoad] = useState(null)
   
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -26,13 +27,16 @@ function App() {
   useEffect(() => {
     async function fetchUser() {
       const response = await fetch('/loggedUser');
-      console.log(response.status != 500)
       const data = await response.json();
+      data.load=true
       setUser(data);
+      setLoad(true)
     }
-    if(!user){
-      fetchUser()
-    }
+    if(!load){
+    setTimeout(() => {
+      fetchUser()  
+    }, 2000);
+  }
   })
 
 
@@ -43,9 +47,9 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <div className="App">
           <BrowserRouter>
-            <Navigationbar />
-            <MainComponent setUser={setUser} />
-          </BrowserRouter>
+            <Navigationbar setLoad={setLoad}/>
+            <MainComponent setUser={setUser} setLoad={setLoad}/>
+          </BrowserRouter >
         </div>
       </UserContext.Provider>
     );

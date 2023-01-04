@@ -65,7 +65,7 @@ const user = {
         } catch (error) {
             res.send(error)
         }
-    },    
+    },
     getUserById: async (req, res) => {
         try {
             const userFinded = await Users.findByPk(req.params.id, { attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] })
@@ -168,6 +168,17 @@ const user = {
             res.json(error)
         }
     },
+    updateUserDistance: async (id_user, total_distance) => {
+        try {
+            await Users.update({total_distance}, {where: {id:id_user}})
+
+
+            
+            console.log("distance updated")
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 module.exports = user

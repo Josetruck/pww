@@ -1,6 +1,6 @@
 
 .leaflet-container{
-    width: 100vw;
+    width: 100%;
     height: 100vh;
 }
 .container{
@@ -43,6 +43,7 @@ justify-items: center;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: minmax(100px, auto);
+    padding: 10px 0px 10px 30px;
 }
 .imgGrid{
     width: 90%;
@@ -110,4 +111,27 @@ right: 1%;
     position: relative;
     color: white;
     font-size: large;
+}
+.titleAndDelete{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.modal-90w{
+    background-color: rgba(0, 0, 0, 0.532);
+}
+@media (min-width: 768px){
+.col-md-4 {
+    width: auto !important; 
+}
+.Home{
+    margin: 10px 15%;
+    width: 70% !important;
+    padding: 1%;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    -webkit-box-shadow: 8px 13px 17px 0px rgba(194,188,194,1);
+-moz-box-shadow: 8px 13px 17px 0px rgba(194,188,194,1);
+box-shadow: 8px 13px 17px 0px rgba(194,188,194,1);
+}
 }

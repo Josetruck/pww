@@ -2,6 +2,7 @@ import { isLogged } from "../helpers/isLogged";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react"
 import { defaultFetch } from "../helpers/defaultFetch";
+import { Link } from "react-router-dom";
 
 function Contact() {
     const navigate = useNavigate()
@@ -26,7 +27,7 @@ function Contact() {
 
     if (verify1) {
         return (
-            <div>
+            <div className="Home">
                 <div className="form-group marginadoTop">
                     <label>Búsqueda de usuarios</label>
                     <input
@@ -40,11 +41,17 @@ function Contact() {
                     <div className="resultados">
                         {results.map((result, i) => {
                             return <div className="result" key={i}>
-                                <a href={`/profile/${result.id}`}><h3>{result.user_name}</h3></a>
+                                <Link to={`/profile/${result.id}`}><h3>{result.user_name}</h3></Link>
                                 <p>{result.this_week_distance} Km esta semana</p>
                             </div>
                         })}
-                    </div> : null}
+                    </div>
+                    : null}
+                    {results.length === 0 ?  <div className="resultados">
+                        <h3>No hay resultados en la búsqueda</h3>
+                    </div>:null
+
+                    }
 
             </div>
         );

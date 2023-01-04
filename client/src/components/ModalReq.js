@@ -31,7 +31,7 @@ function ModalReq(props) {
                 setReqload(true)
             })
         }
-    }, [requests])
+    })
 
     const handleAccept = (id) => {
         fetch("/requestResponse", {

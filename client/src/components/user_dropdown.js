@@ -13,12 +13,14 @@ function UserDropdown(props) {
     const [cookies, setCookie, removeCookie] = useCookies(['session']);
     const navigate = useNavigate()
     const { user, setUser } = useContext(UserContext)
+    const setLoad = props.setLoad
 
     //Logout
     const logout = () => {
         removeCookie("session", { path: '/' })
         navigate("/")
-        setUser("")
+        setUser(null)
+        setLoad(false)
     }
     useEffect(() => {
         setUser(user)

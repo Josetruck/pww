@@ -4,10 +4,12 @@ import Modal from 'react-bootstrap/Modal';
 import { defaultFetch } from '../helpers/defaultFetch';
 import UserContext from '../context/UserContext';
 
+import ModalConfirm from './ModalConfirm';
+
 
 
 function ModalImg(props) {
-    const user = useContext(UserContext)
+    const {user} = useContext(UserContext)
     const image = props.img
     const coments = image.coments
     const [show, setShow] = useState(false);
@@ -21,8 +23,8 @@ function ModalImg(props) {
         if (text.length > 0) {
             const datos = {
                 _id: image._id,
-                id_user: user.user.id,
-                user_name: user.user.user_name,
+                id_user: user.id,
+                user_name: user.user_name,
                 text: text
             }
             defaultFetch("/addComment", "POST", datos).then(()=>props.setLoad(false)).then(()=>{
@@ -39,6 +41,12 @@ function ModalImg(props) {
 
     }
 
+    function deleteImage(_id,) {
+        const body = { _id}
+        defaultFetch(`/image/${_id}`, "DELETE").then(props.setLoad(false))
+
+    }
+
     return (
         <>
             <div onClick={handleShow}>
@@ -51,10 +59,11 @@ function ModalImg(props) {
                 <Modal.Body>
                     <img className='imgModal' src={`http://localhost:5000/Images/${image.id_user}/${image.url}`} alt={image.alt} />
                     <div className='imgFoot'>
-                        <div>
+                        <div className='titleAndDelete'>
                             <h3>{image.title}</h3>
+                        {user.id == image.id_user && <ModalConfirm image={image}/> }
                         </div>
-                        <h4>{image.date}</h4>
+                        <h6>{image.date}</h6>
                         <p>{image.address}</p>
                     </div>
                     {coments && <div>
@@ -64,7 +73,7 @@ function ModalImg(props) {
                                 <h6>{comment.date}</h6>
 
                                 <p>{comment.text}</p>
-                                {user.user.id == comment.id_user && <div>
+                                {user.id == comment.id_user && <div>
                                     <button className='btn btn-secondary'
                                         onClick={() => { deleteComent(image._id, comment._id) }}>Borrar comentario</button>
                                 </div>}
