@@ -79,7 +79,7 @@ const user = {
     },
     searchUser: async (req, res) => {
         try {
-            res.json(await Users.findAll({ where: { user_name: { [Op.like]: `%${req.body.user_name}%` } } }))
+            res.json(await Users.findAll({ where: { user_name: { [Op.like]: `%${req.body.user_name}%` },id:{[Op.ne]:req.body.id_user}} }))
         } catch (error) {
             res.send(error)
         }
@@ -177,6 +177,14 @@ const user = {
             console.log("distance updated")
         } catch (error) {
             console.log(error)
+        }
+    },
+    getDistancesById: async (req, res)=>{
+        try {
+            res.json(await Users.findOne({attributes:["this_week_distance","total_distance"]},{where:{id:req.params.id}}))
+        } catch (error) {
+            console.log(error)
+            res.json(false)
         }
     }
 }

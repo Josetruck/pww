@@ -7,7 +7,7 @@ import Badge from 'react-bootstrap/esm/Badge';
 
 
 function ModalReq(props) {
-    const { user } = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -26,13 +26,11 @@ function ModalReq(props) {
                         return requestModif
                     }
                 })
-                console.log(requestInfo)
                 setRequests(requestInfo)
                 setReqload(true)
             })
         }
     })
-
     const handleAccept = (id) => {
         fetch("/requestResponse", {
             method: "post",
@@ -47,7 +45,9 @@ function ModalReq(props) {
             }
         })
         props.setLoad(false)
+        fetch('/loggedUser').then(res=>res.json()).then(res=>setUser(res))
     }
+    
     const handleDeny = (id) => {
         fetch("/requestResponse", {
             method: "post",

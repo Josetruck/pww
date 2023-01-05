@@ -26,6 +26,9 @@ justify-content: space-around;
 .marginadoTop{
     margin-top: 15px;
 }
+#subirfoto {
+width: 40%;
+  }
 .imgPreview{
     width: 70%;
     display: block;
@@ -34,7 +37,9 @@ justify-content: space-around;
     align-self: center;
 }
 .centrado{
-justify-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .logoNav{
     height: 7vh;
@@ -131,7 +136,8 @@ right: 1%;
     border: 2px solid lightgray;
     border-radius: 10px;
     -webkit-box-shadow: 8px 13px 17px 0px rgba(194,188,194,1);
--moz-box-shadow: 8px 13px 17px 0px rgba(194,188,194,1);
-box-shadow: 8px 13px 17px 0px rgba(194,188,194,1);
+    -moz-box-shadow: 8px 13px 17px 0px rgba(194,188,194,1);
+    box-shadow: 8px 13px 17px 0px rgba(194,188,194,1);
 }
 }
+

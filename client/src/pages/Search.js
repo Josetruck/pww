@@ -1,14 +1,16 @@
 import { isLogged } from "../helpers/isLogged";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { defaultFetch } from "../helpers/defaultFetch";
 import { Link } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 function Contact() {
     const navigate = useNavigate()
     const [verify1, setVerify1] = useState(false)
     const [inputValue, setInputValue] = useState("")
     const [results, setResults] = useState([])
+    const {user} = useContext(UserContext)
 
     useEffect(() => {
         if (!isLogged()) {
@@ -19,7 +21,8 @@ function Contact() {
     })
 
     function handleSearch() {
-        defaultFetch("/searchUser", "post", { user_name: inputValue }).then(res => setResults(res))
+        console.log(user)
+        defaultFetch("/searchUser", "post", { user_name: inputValue, id_user:user.id} ).then(res => setResults(res))
         console.log(inputValue)
         console.log(results)
     }

@@ -13,7 +13,7 @@ function UploadImage() {
     const [title, setTitle] = useState(null)
     const [verify1, setVerify1] = useState(false)
     const navigate = useNavigate();
-    const {user, setUser} = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
     const id_user = user.id
 
     //Obtenemos la localización de la imagen mediante geocodificación inversa.
@@ -42,46 +42,46 @@ function UploadImage() {
 
             // Parsea los metadatos EXIF del archivo de imagen
             const result = parser.parse();
-            console.log("Lo de la foto_",result.tags)
+            console.log("Lo de la foto_", result.tags)
 
             // Accede a los metadatos a través del objeto result
-            
+
             const dateTimestamp = result.tags.DateTimeOriginal
             console.log(dateTimestamp)
             var date;
-            if(dateTimestamp){
+            if (dateTimestamp) {
                 date = new Date(dateTimestamp * 1000);
             } else {
                 date = new Date(Date.now())
             }
-            
+
             //formateo de fecha
             let year = date.getFullYear();
-            let month = date.getMonth()+1;
+            let month = date.getMonth() + 1;
             let dt = date.getDate();
             let hh = date.getHours()
             let mm = date.getMinutes()
             if (dt < 10) {
-              dt = '0' + dt;
+                dt = '0' + dt;
             }
             if (month < 10) {
-              month = '0' + month;
+                month = '0' + month;
             }
-            if (hh<10){
-                hh = '0'+hh;
+            if (hh < 10) {
+                hh = '0' + hh;
             }
-            if (mm<10){
-                mm = '0'+mm;
+            if (mm < 10) {
+                mm = '0' + mm;
             }
 
-            const dateString = (year+'-' + month + '-'+dt+" "+hh+":"+mm).toString();
+            const dateString = (year + '-' + month + '-' + dt + " " + hh + ":" + mm).toString();
             const gpsLat = result.tags.GPSLatitude;
             const gpsLon = result.tags.GPSLongitude;
             var coordinates = [gpsLat, gpsLon]
             // Accede a las coordenadas del dispositivo en caso de que no estén disponibles en los metadatos
             if (!gpsLat) {
                 coordinates = user.coordinates
-        }
+            }
             fetchAddress(coordinates);
             setMetadata({
                 coordinates,
@@ -103,24 +103,24 @@ function UploadImage() {
                 id_user: id_user
             }
         }).then(res => res.json()).then(res => {
-                const url = res.path;
+            const url = res.path;
 
-                const datos = {
-                    id_user: id_user,
-                    date: metadata.dateString,
-                    title: title,
-                    url: url,
-                    location: metadata.coordinates,
-                    address: address
+            const datos = {
+                id_user: id_user,
+                date: metadata.dateString,
+                title: title,
+                url: url,
+                location: metadata.coordinates,
+                address: address
+            }
+            console.log("titulo", title, datos)
+            defaultFetch("/insertImg", "POST", datos).then(res => {
+                if (res === "ok") {
+                    navigate("/")
+                    setUser(user)
                 }
-                console.log("titulo", title, datos)
-                defaultFetch("/insertImg", "POST", datos).then(res => {
-                    if (res === "ok") {
-                        navigate("/")
-                        setUser(user)
-                    }
-                })
-            });
+            })
+        });
     }
     useEffect(() => {
         if (!isLogged()) {
@@ -128,7 +128,7 @@ function UploadImage() {
         } else {
             setVerify1(true)
         }
-    },[navigate])
+    }, [navigate])
     if (verify1) {
         return (
             <div className="App">
@@ -136,18 +136,24 @@ function UploadImage() {
                     <div className="row d-flex justify-content-center">
                         <div className="col-md-4">
                             <form id="loginform" onSubmit={handleUpload}>
+
+                                <div className="centrado">
                                 <h2>Nueva imagen:</h2>
 
-                                <div className="form-group">
-                                    <label>Elegir imagen</label>
-                                    <input
-                                        required
-                                        type="file"
-                                        className="form-control"
-                                        id="imagen"
-                                        placeholder=""
-                                        onChange={handleImageChange}
-                                    />
+                                    <label className="centrado">
+                                        <input
+                                            hidden
+                                            required
+                                            type="file"
+                                            className="form-control"
+                                            id="imagen"
+                                            placeholder=""
+                                            onChange={handleImageChange}
+                                        />
+                                        <div className="centrado">
+                                            <img id="subirfoto" src={"https://icones.pro/wp-content/uploads/2021/02/icono-de-camara-gris.png"} />
+                                        </div>
+                                    </label>
                                 </div>
                                 <div>
                                     <label>Título</label>

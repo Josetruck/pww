@@ -16,10 +16,16 @@ function Profile() {
     const {user} = useContext(UserContext)
     const [isFriend, setIsFriend] = useState(false)
     const [sended, setSended] = useState(false)
+    const [total_distance, setTotal_distance] = useState(null)
     
     useEffect(()=>{
         if(!profile)
         fetch(`/getUserById/${id_profile}`).then(res=>res.json()).then(res=>setProfile(res))
+        console.log(profile)
+    })
+
+    useEffect(()=>{
+        fetch("/getDistances").then(res=>res.json()).then(res=>setTotal_distance(res.total_distance))
     })
     
     useEffect(()=>{
@@ -35,7 +41,6 @@ function Profile() {
                 }
             })
         })
-
     })
     
 
@@ -62,7 +67,7 @@ function Profile() {
         return (<div className="Home">
             <div className="userInfo">
                 <h1 className="userName">{profile.user_name}</h1>
-                <p id="weekDistance">{profile.total_distante} km esta semana</p>
+                <p id="weekDistance">{ total_distance} km</p>
                 {(!isFriend && !sended)&& <button className="btn btn-primary" onClick={sendRequest}>Añadir como amigo</button>}
                 {!isFriend && sended&&<p>Solicitud enviada</p>}
             </div>

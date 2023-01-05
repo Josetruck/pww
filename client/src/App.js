@@ -29,21 +29,19 @@ function App() {
     //-----------------------------------------------REVISAR ESTO -------------------------------------------
     async function fetchUser() {
       const response = await fetch('/loggedUser');
-      console.log("res:::::::",response)
-      const data = await response.json();
-      console.log("data:::::::",data)
-      setUser(data);
-      if(data.user_name){
-        console.log("data",data)
+
+      const data2 = await response.json();
+      setUser(data2);
+      if(data2.user_name){
         setLoad(true)
       }
     }
     if(!load){
     setTimeout(() => {
-      fetchUser()  
+      fetchUser() 
     }, 2000);
   }
-  })
+  },[load])
 
 
   if (!user) {

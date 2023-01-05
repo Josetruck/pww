@@ -12,7 +12,8 @@ function Home(props) {
     const {user, setUser}= useContext(UserContext)
     const [verify1, setVerify1] = useState(null)
     const [user_name, setUser_name] = useState("")
-    const [total_distance, setTotal_distance] = useState("")
+    const [total_distance, setTotal_distance] = useState(0)
+    const [load, setLoad] = useState(false)
 
     useEffect(()=>{
         setVerify1(isLogged())
@@ -33,7 +34,7 @@ function Home(props) {
                 <h1 className="userName">{user_name}</h1>
                 <p id="weekDistance">{total_distance} km</p>
             </div>
-            <DisplayImg id_user={user.id} user={user}/>
+            <DisplayImg id_user={user.id} user={user} setTotal_distance={setTotal_distance} />
             </div>
         </div>)
     } else {

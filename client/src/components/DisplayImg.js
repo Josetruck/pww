@@ -22,6 +22,12 @@ function DisplayImg(props) {
       console.log("hace fetch a imagenes")
     })
   })
+useEffect(()=>{
+  fetch(`/getDistance/${user.id}`).then(res=>res.json()).then(res=>{
+    user.total_distance=res.total_distance
+    props.setTotal_distance(res.total_distance)
+  })
+},[userImages])
 
   useEffect(() => {
     setTimeout(() => {
