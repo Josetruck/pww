@@ -28,6 +28,7 @@ router.post("/insertImg", images.insert)
 router.get("/getImagesById/:id_user", images.getImagesById)
 router.post("/addComment", images.addComment)
 router.post("/deleteComent", images.deleteComment)
+router.delete("/image/:_id", images.deleteImage)
 
 //Friend Requests
 

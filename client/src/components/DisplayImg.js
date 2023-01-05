@@ -15,7 +15,7 @@ function DisplayImg(props) {
 
 
   useEffect(() => {
-    if(!load)
+    if(!load && props.id_user != undefined)
     defaultFetch(`/getImagesById/${props.id_user}`).then((res) => {
       setUserImages(res)
       setLoad(true)

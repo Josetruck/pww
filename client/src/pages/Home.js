@@ -11,9 +11,15 @@ function Home(props) {
     const navigate = useNavigate()
     const {user, setUser}= useContext(UserContext)
     const [verify1, setVerify1] = useState(null)
+    const [user_name, setUser_name] = useState("")
+    const [total_distance, setTotal_distance] = useState("")
 
     useEffect(()=>{
         setVerify1(isLogged())
+    })
+    useEffect(()=>{
+        setUser_name(user.user_name)
+        setTotal_distance(user.total_distance)
     })
 
     if(!user){
@@ -24,8 +30,8 @@ function Home(props) {
         return (<div className="Home">
             <div>
             <div className="userInfo">
-                <h1 className="userName">{user.user_name}</h1>
-                <p id="weekDistance">{user.total_distance} km</p>
+                <h1 className="userName">{user_name}</h1>
+                <p id="weekDistance">{total_distance} km</p>
             </div>
             <DisplayImg id_user={user.id} user={user}/>
             </div>

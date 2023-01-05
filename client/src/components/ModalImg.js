@@ -41,12 +41,6 @@ function ModalImg(props) {
 
     }
 
-    function deleteImage(_id,) {
-        const body = { _id}
-        defaultFetch(`/image/${_id}`, "DELETE").then(props.setLoad(false))
-
-    }
-
     return (
         <>
             <div onClick={handleShow}>
@@ -61,7 +55,7 @@ function ModalImg(props) {
                     <div className='imgFoot'>
                         <div className='titleAndDelete'>
                             <h3>{image.title}</h3>
-                        {user.id == image.id_user && <ModalConfirm image={image}/> }
+                        {user.id == image.id_user && <ModalConfirm image={image} setImgShow={setShow} setLoad={props.setLoad}/> }
                         </div>
                         <h6>{image.date}</h6>
                         <p>{image.address}</p>

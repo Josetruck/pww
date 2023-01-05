@@ -11,7 +11,14 @@ function ModalConfirm(props) {
     const handleShow = () => setShow(true);
 
     function deleteImage(_id) {
-        fetch(`/image/${_id}`, "DELETE").then(res=>res.json()).then(res=>console.log(res))
+        console.log(_id)
+        fetch(`/image/${_id}`, {method: "DELETE"}).then(res=>res.json()).then(res=>{
+            console.log(res)
+            if(res){
+                setShow(false)
+                props.setImgShow(false)
+                props.setLoad(false)
+            }})
     }
 
 
@@ -39,10 +46,10 @@ function ModalConfirm(props) {
                 <Modal.Body>¿Seguro que quieres eliminar esta foto?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                       Cerrar
                     </Button>
                     <Button variant="primary" onClick={() => { deleteImage(props.image._id) }}>
-                        Save Changes
+                       Borrar
                     </Button>
                 </Modal.Footer>
             </Modal>

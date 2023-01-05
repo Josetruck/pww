@@ -13,7 +13,7 @@ function UploadImage() {
     const [title, setTitle] = useState(null)
     const [verify1, setVerify1] = useState(false)
     const navigate = useNavigate();
-    const {user} = useContext(UserContext)
+    const {user, setUser} = useContext(UserContext)
     const id_user = user.id
 
     //Obtenemos la localización de la imagen mediante geocodificación inversa.
@@ -45,8 +45,15 @@ function UploadImage() {
             console.log("Lo de la foto_",result.tags)
 
             // Accede a los metadatos a través del objeto result
+            
             const dateTimestamp = result.tags.DateTimeOriginal
-            const date = new Date(dateTimestamp * 1000);
+            console.log(dateTimestamp)
+            var date;
+            if(dateTimestamp){
+                date = new Date(dateTimestamp * 1000);
+            } else {
+                date = new Date(Date.now())
+            }
             
             //formateo de fecha
             let year = date.getFullYear();
@@ -108,9 +115,9 @@ function UploadImage() {
                 }
                 console.log("titulo", title, datos)
                 defaultFetch("/insertImg", "POST", datos).then(res => {
-                    console.log(res)
                     if (res === "ok") {
                         navigate("/")
+                        setUser(user)
                     }
                 })
             });
@@ -125,7 +132,7 @@ function UploadImage() {
     if (verify1) {
         return (
             <div className="App">
-                <div className="container">
+                <div className="container Home">
                     <div className="row d-flex justify-content-center">
                         <div className="col-md-4">
                             <form id="loginform" onSubmit={handleUpload}>

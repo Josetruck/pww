@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { defaultFetch } from "../helpers/defaultFetch";
 import Warning from "../components/warnings/Warning";
 import AlertOk from "../components/warnings/AlertOk";
 import Cookies from 'universal-cookie';
+import UserContext from "../context/UserContext";
 
 function Register2() {
   const [password, setPassword] = useState("")
@@ -20,6 +21,7 @@ function Register2() {
   const [postal_code, setPostal_code] = useState("")
   const [error, setError] = useState(false)
   const { email } = useParams()
+  const {user, setUser} = useContext(UserContext)
   const navigate = useNavigate()
 
   const handleValidation = (event) => {
@@ -30,6 +32,9 @@ function Register2() {
         if(res){
         cookies.set('session', res.cookie, { path: "/", expires: new Date('2050-01-01') });
         navigate("/")
+        user.load = false
+        console.log(user)
+        setUser(user)
       } else {
         setError(true)
       }
@@ -62,7 +67,7 @@ function Register2() {
 
   return (
     <div className="App">
-      <div className="container">
+      <div className="container Home">
         <div className="row d-flex justify-content-center">
           <div className="col-md-4">
             <form id="loginform" onSubmit={loginSubmit}>

@@ -1,7 +1,8 @@
 const Images = require("../models/mongodb/img.models")
 const mongoose = require("mongoose");
 const url = `mongodb://127.0.0.1:27017/pww`;
-const user = require("./users.controllers")
+const user = require("./users.controllers");
+const fs = require('fs')
 
 /**
  * Funcion que calcula la distancia entre dos coordenadas
@@ -84,6 +85,31 @@ const image = {
             res.json(image)
         } catch (error) {
             res.json(error)
+        } finally {
+            await mongoose.connection.close();
+        }
+    },
+    deleteImage:async(req,res)=>{
+        await mongoose.connect(url).catch(error => handleError(error));
+        try {
+            const { _id } = req.params
+            const image = await Images.findOne({ _id })
+            console.log(image)
+            const {id_user, url} = image
+            fs.unlinkSync(`${__dirname}/../images/${id_user}/${url}`)
+            await Images.deleteOne({_id})
+            const imgList= await Images.find({id_user}).sort({date:'desc'})
+            const coords = imgList.map(image=>image.location)
+            console.log(coords)
+            let distance = 0;
+            for (let i = 0; i < coords.length - 1; i++) {
+              distance += getDistanceBetweenPoints(coords[i],coords[i+1]);
+            }
+            await user.updateUserDistance(id_user, distance)
+            res.json(true)
+        } catch (error) {
+            console.log(error)
+            res.json(false)
         } finally {
             await mongoose.connection.close();
         }

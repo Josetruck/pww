@@ -25,12 +25,18 @@ function App() {
   }, [user])
 
   useEffect(() => {
+
+    //-----------------------------------------------REVISAR ESTO -------------------------------------------
     async function fetchUser() {
       const response = await fetch('/loggedUser');
+      console.log("res:::::::",response)
       const data = await response.json();
-      data.load=true
+      console.log("data:::::::",data)
       setUser(data);
-      setLoad(true)
+      if(data.user_name){
+        console.log("data",data)
+        setLoad(true)
+      }
     }
     if(!load){
     setTimeout(() => {

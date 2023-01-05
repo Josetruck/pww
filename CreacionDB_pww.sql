@@ -40,7 +40,7 @@ create table users(
     FOREIGN KEY (fk_id_clan) references clans(id) on delete set null
 );
 
-create table weekly_game(
+create table weekly_games(
     id INT AUTO_INCREMENT,
     score int(20),
     score_date date default (current_date),
