@@ -29,6 +29,9 @@ justify-content: space-around;
 #subirfoto {
 width: 40%;
   }
+.submit{
+    align-self: center;
+}
 .imgPreview{
     width: 70%;
     display: block;
@@ -83,7 +86,22 @@ box-shadow: 3px;
 margin: 10px 40px;
 padding: 2%;
 }
+.table{
+    margin: 5%;
+    width: 90% !important;
+}
 
+.thdark{
+    background-color: rgb(54, 54, 54);
+    color: white;
+}
+.score{
+    display: flex;
+    flex-direction: row;
+}
+.scoreNumber{
+    padding-right: 10px;
+}
 .itemText{
     background-color: lightgray;
     margin: 2px;

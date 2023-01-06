@@ -23,6 +23,7 @@ router.post("/passRecovery", user.passRecovery)
 router.post("/passReset", user.passReset)
 router.get("/getUserById/:id", user.getUserById)
 router.get(`/getDistance/:id`, user.getDistancesById)
+router.get("/getTopTen", user.getTopTen)
 
 //Images
 router.post("/insertImg", images.insert)

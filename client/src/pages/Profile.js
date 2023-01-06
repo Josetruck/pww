@@ -4,7 +4,7 @@ import { isLogged } from "../helpers/isLogged";
 import { useNavigate , useParams} from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { useContext } from "react";
-
+import Odometer from 'react-odometerjs';
 
 
 
@@ -25,7 +25,7 @@ function Profile() {
     })
 
     useEffect(()=>{
-        fetch("/getDistances").then(res=>res.json()).then(res=>setTotal_distance(res.total_distance))
+        fetch(`/getDistance/${id_profile}`).then(res=>res.json()).then(res=>setTotal_distance(res.total_distance))
     })
     
     useEffect(()=>{

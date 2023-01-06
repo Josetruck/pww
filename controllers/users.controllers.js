@@ -72,6 +72,7 @@ const user = {
             const profileFinded = await profile.getById(req.params.id)
             const user_datavalues = userFinded.dataValues
             const userData = Object.assign({}, user_datavalues, profileFinded)
+            console.log(userData)
             res.json(userData)
         } catch (error) {
             res.send(error)
@@ -171,8 +172,8 @@ const user = {
     updateUserDistance: async (id_user, total_distance) => {
         try {
             await Users.update({total_distance}, {where: {id:id_user}})
-
-
+            
+            
             
             console.log("distance updated")
         } catch (error) {
@@ -181,7 +182,21 @@ const user = {
     },
     getDistancesById: async (req, res)=>{
         try {
-            res.json(await Users.findOne({attributes:["this_week_distance","total_distance"]},{where:{id:req.params.id}}))
+            const distances = await Users.findByPk(req.params.id,{attributes:["this_week_distance","total_distance"]})
+            console.log(distances.dataValues)
+            res.json(distances.dataValues)
+        } catch (error) {
+            console.log(error)
+            res.json(false)
+        }
+    },
+    getTopTen: async (req, res)=>{
+        try {
+            const users = await Users.findAll({
+                order: [['total_distance', 'DESC']],
+                limit: 10
+              });
+              res.json(users)
         } catch (error) {
             console.log(error)
             res.json(false)

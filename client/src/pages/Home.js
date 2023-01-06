@@ -19,6 +19,7 @@ function Home(props) {
         setVerify1(isLogged())
     })
     useEffect(()=>{
+        console.log(user)
         setUser_name(user.user_name)
         setTotal_distance(user.total_distance)
     })

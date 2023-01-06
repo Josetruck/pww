@@ -45,7 +45,7 @@ function Contact() {
                         {results.map((result, i) => {
                             return <div className="result" key={i}>
                                 <Link to={`/profile/${result.id}`}><h3>{result.user_name}</h3></Link>
-                                <p>{result.this_week_distance} Km esta semana</p>
+                                <p>{result.total_distance} Km esta semana</p>
                             </div>
                         })}
                     </div>

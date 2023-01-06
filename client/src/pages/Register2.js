@@ -82,6 +82,7 @@ function Register2() {
                     id="user_nameInput"
                     name="user_nameInput"
                     placeholder="Nombre de usuario"
+                    maxLength={20} 
                     onChange={(event) => setUser_name(event.target.value)}
                   />
                   <div className="alert-form-container col">

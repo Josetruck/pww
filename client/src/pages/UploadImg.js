@@ -154,24 +154,27 @@ function UploadImage() {
                                             <img id="subirfoto" src={"https://icones.pro/wp-content/uploads/2021/02/icono-de-camara-gris.png"} />
                                         </div>
                                     </label>
-                                </div>
                                 <div>
                                     <label>Título</label>
                                     <input type="text" className="form-control" onChange={(e) => setTitle(e.target.value)} />
                                 </div>
-                                {imagen && <div className="form-group centrado marginadoTop"><img src={imagen.imagePreviewUrl} alt="Preview" className="imgPreview" /></div>}
-                                <div className="form-group marginadoTop">
-                                    <button type="submit" className="btn btn-primary" >
-                                        Submit
-                                    </button>
                                 </div>
+                                {imagen && <div className="form-group centrado marginadoTop">
+                                    <h4>Previsualización</h4>
+                                    <img src={imagen.imagePreviewUrl} alt="Preview" className="imgPreview" />
                                 {metadata && (
-                                    <div>
+                                    <div className="Home">
                                         <p><strong>Fecha:</strong> {metadata.dateString}</p>
                                         <p><strong>Coordenadas:</strong> {metadata.coordinates}</p>
                                         <p><strong>Localizacion:</strong> {address}</p>
                                     </div>
                                 )}
+                                <div className="marginadoTop submit">
+                                    <button type="submit" className="btn btn-primary" >
+                                        Submit
+                                    </button>
+                                </div>
+                                    </div>}
                             </form>
                         </div>
                     </div>
