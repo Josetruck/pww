@@ -3,7 +3,6 @@ const profile = require("../controllers/profiles.controllers");
 const user = require("../controllers/users.controllers")
 const clans = require("../controllers/clans.controllers");
 const images = require("../controllers/images.controllers");
-const image = require("../controllers/images.controllers");
 const req_friend = require("../controllers/req_friend.controllers")
 
 

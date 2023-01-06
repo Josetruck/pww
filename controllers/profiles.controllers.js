@@ -4,6 +4,12 @@ const url = `mongodb://127.0.0.1:27017/pww`;
 
 
 const profile = {
+  /**
+   * Funcion que inserta en la base de datos MongoDB los datos personales del usuario. Se ejecuta despues de hacer la inserción en la base de datos MySQL con la Id del usuario para relacionar ambas bases de datos. 
+   * @param {JSON} req 
+   * @param {JSON} res 
+   * @param {INTEGER} id_user 
+   */
   register: async (req, res, id_user) => {
     try {
       await mongoose.connect(url).catch(error => handleError(error));
@@ -15,7 +21,11 @@ const profile = {
       await mongoose.connection.close();
     }
   },
-
+/**
+ * Función que actualiza los datos personales del usuario.
+ * @param {JSON} req 
+ * @param {JSON} res 
+ */
   update: async (req, res) => {
     let user_data = await user.getFromCookie(req, res)
     await mongoose.connect(url).catch(error => handleError(error));
@@ -30,6 +40,11 @@ const profile = {
       await mongoose.connection.close();
     }
   },
+  /**
+   * Funcion del back-end
+   * @param {INTEGER} id_user 
+   * @returns el perfil del usuario a otra función en user.controllers para responder con todos los datos pertenecientes al usuario.
+   */
   getById: async (id_user) => {
     try {
       await mongoose.connect(url).catch(error => handleError(error));
@@ -40,6 +55,12 @@ const profile = {
       await mongoose.connection.close();
     }
   },
+  /**
+   * Actualiza el array con la lista de ids de los usuarios que se han añadido como amigos.
+   * @param {INTEGER} id_from 
+   * @param {INTEGER} id_to 
+   * @returns true o false
+   */
   addfriend: async (id_from, id_to)=>{
     try {
       await mongoose.connect(url).catch(error => handleError(error));
