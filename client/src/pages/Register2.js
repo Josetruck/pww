@@ -31,9 +31,8 @@ function Register2() {
       defaultFetch("/register", "POST", datos).then(res=>{
         if(res){
         cookies.set('session', res.cookie, { path: "/", expires: new Date('2050-01-01') });
-        navigate("/")
+        navigate("/registerSuccess")
         user.load = false
-        console.log(user)
         setUser(user)
       } else {
         setError(true)

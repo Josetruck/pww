@@ -15,13 +15,26 @@ function Home(props) {
     const [total_distance, setTotal_distance] = useState(0)
     const [load, setLoad] = useState(false)
 
-
+    async function fetchUser() {
+        const response = await fetch('/loggedUser');
+        const data2 = await response.json();
+        setUser(data2);
+        if(data2.user_name){
+          setLoad(true)
+        }
+      }
+      if(!load){
+      setTimeout(() => {
+        fetchUser() 
+      }, 2000);
+    }
+    
 
     useEffect(()=>{
         setVerify1(isLogged())
     })
+    
     useEffect(()=>{
-        console.log(user)
         setUser_name(user.user_name)
         setTotal_distance(user.total_distance)
     })
