@@ -40,7 +40,7 @@ function Navigationbar(props) {
 
   return (
 
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="dark" variant="dark" id='navBar'>
       <Container>
         <Navbar.Brand as={Link} to={"/"}><img src={logo} alt="Logo" className='logoNav' /></Navbar.Brand>
         <Nav className="me-auto">

@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { defaultFetch } from "../helpers/defaultFetch";
 
 function EmailConfirm() {
-  const navigate = useNavigate()
   const {jwt} = useParams()
   const handleConfirm = ()=>{
     console.log(jwt)

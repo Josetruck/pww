@@ -12,13 +12,14 @@ function ModalConfirm(props) {
 
     function deleteImage(_id) {
         console.log(_id)
-        fetch(`/image/${_id}`, {method: "DELETE"}).then(res=>res.json()).then(res=>{
+        fetch(`/image/${_id}`, { method: "DELETE" }).then(res => res.json()).then(res => {
             console.log(res)
-            if(res){
+            if (res) {
                 setShow(false)
                 props.setImgShow(false)
                 props.setLoad(false)
-            }})
+            }
+        })
     }
 
 
@@ -27,13 +28,12 @@ function ModalConfirm(props) {
 
 
             <Button className='btn btn-secondary'
-                onClick={handleShow}><FontAwesomeIcon icon={faTrash} /></Button>
-
-
-            <Modal 
-            show={show} 
-            onHide={handleClose} 
-            backdrop="static"
+                onClick={handleShow}><FontAwesomeIcon icon={faTrash} />
+            </Button>
+            <Modal
+                show={show}
+                onHide={handleClose}
+                backdrop="static"
                 keyboard={false}
                 {...props}
                 size="lg"
@@ -46,10 +46,10 @@ function ModalConfirm(props) {
                 <Modal.Body>¿Seguro que quieres eliminar esta foto?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                       Cerrar
+                        Cerrar
                     </Button>
                     <Button variant="primary" onClick={() => { deleteImage(props.image._id) }}>
-                       Borrar
+                        Borrar
                     </Button>
                 </Modal.Footer>
             </Modal>
