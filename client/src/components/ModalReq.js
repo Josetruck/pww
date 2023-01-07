@@ -78,22 +78,19 @@ function ModalReq(props) {
                 </Modal.Header>
                 <Modal.Body>
                     {requests && requests.map((request, i) => {
-                        if (!request.req_status) {
+                        if (request.req_status ==="progress") {
                             return <div key={i}>
+                                <div className='flexrow'>
                                 <a href={`/profile/${request.fk_id_from}`}><h4>{request.user_name}</h4></a>
                                 <p>{request.req_date}</p>
-                                <button className='btn btn-success' onClick={() => handleAccept(request.id)}>Aceptar</button>
-                                <button className='btn btn-danger' onClick={() => handleDeny(request.id)}>Rechazar</button>
+                                </div>
+                                <p>Quiere ser tu amigo.</p>
+                                <button className='btn btn-secondary' onClick={() => handleAccept(request.id)}>Aceptar</button>
+                                <button className='btn btn-dark' onClick={() => handleDeny(request.id)}>Rechazar</button>
                             </div>
                         }
                     })}
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cerrar
-                    </Button>
-
-                </Modal.Footer>
             </Modal>
         </>
     );

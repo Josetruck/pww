@@ -5,6 +5,8 @@ import ExifParser from 'exif-parser';
 import { defaultFetch } from '../helpers/defaultFetch'
 import UserContext from "../context/UserContext";
 import { isLogged } from "../helpers/isLogged";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
 function UploadImage() {
     const [metadata, setMetadata] = useState(null);
@@ -137,8 +139,8 @@ function UploadImage() {
                         <div className="col-md-4">
                             <form id="loginform" onSubmit={handleUpload}>
 
-                                <div className="centrado">
-                                <h2>Nueva imagen:</h2>
+                                <div className="centrado marginadoTop">
+                                <h3>Nueva publicación:</h3>
 
                                     <label className="centrado">
                                         <input
@@ -151,7 +153,8 @@ function UploadImage() {
                                             onChange={handleImageChange}
                                         />
                                         <div className="centrado">
-                                            <img id="subirfoto" src={"https://icones.pro/wp-content/uploads/2021/02/icono-de-camara-gris.png"} />
+                                            <FontAwesomeIcon icon={faUpload} className="iconoupload"/>
+                                            <p>Elige tu foto</p>
                                         </div>
                                     </label>
                                 <div>
@@ -163,15 +166,15 @@ function UploadImage() {
                                     <h4>Previsualización</h4>
                                     <img src={imagen.imagePreviewUrl} alt="Preview" className="imgPreview" />
                                 {metadata && (
-                                    <div className="Home">
+                                    <div className="Home cajicadelafoto">
                                         <p><strong>Fecha:</strong> {metadata.dateString}</p>
                                         <p><strong>Coordenadas:</strong> {metadata.coordinates}</p>
                                         <p><strong>Localizacion:</strong> {address}</p>
                                     </div>
                                 )}
                                 <div className="marginadoTop submit">
-                                    <button type="submit" className="btn btn-primary" >
-                                        Submit
+                                    <button type="submit" className="btn btn-secondary" >
+                                        Publicar
                                     </button>
                                 </div>
                                     </div>}

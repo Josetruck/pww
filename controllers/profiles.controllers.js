@@ -74,6 +74,24 @@ const profile = {
     } finally {
       await mongoose.connection.close();
     }
+  },
+  deleteFriend: async (req, res)=>{
+    const id_from = parseInt(req.params.id_from)
+    const id_to = parseInt(req.params.id_to)
+    try {
+      console.log(req.params)
+      await mongoose.connect(url).catch(error => handleError(error));
+      const userFrom= await Profile.findOneAndUpdate({"id_user": id_to},{ $pull: { "friend_list": id_from } })
+      console.log("primera")
+      const userTo= await Profile.findOneAndUpdate({"id_user": id_from},{ $pull: { "friend_list": id_to } })
+      console.log(userFrom, userTo)
+      res.json(true) 
+    } catch (error) {
+      console.log(error)
+      res.json(false)
+    } finally {
+      await mongoose.connection.close();
+    }
   }
 
 };

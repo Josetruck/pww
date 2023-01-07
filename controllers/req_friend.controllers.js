@@ -23,7 +23,7 @@ const requestf = {
     newRequest: async (req, res) => {
         try {
             const { id_from, id_to } = req.body;
-            const requested = await Req_friend.create({ fk_id_from: id_from, fk_id_to: id_to })
+            const requested = await Req_friend.create({ fk_id_from: id_from, fk_id_to: id_to, req_status:"progress" })
             res.json(true)
         } catch (error) {
             console.log(error)

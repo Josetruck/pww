@@ -283,6 +283,25 @@ const user = {
             console.log(error)
             res.json(false)
         }
+    },
+    /**
+     * Responde con un listado con la id y el nombre de usuario de los amigos. las ids vienen en un Array.
+     * @param {JSON} req 
+     * @param {JSON} res 
+     */
+    getUserNames: async (req, res) => {
+        try {
+            const { ids } = req.body
+            const userlist = await Users.findAll({
+                where: {
+                    id: { [Op.in]: ids }
+                }
+            ,  attributes: ["id", "user_name"] });
+            res.json(userlist)
+        } catch (error) {
+            console.log(error)
+            res.json(false)
+        }
     }
 }
 

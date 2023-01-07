@@ -31,6 +31,7 @@ width: 40%;
   }
 .submit{
     align-self: center;
+    margin-bottom: 30px;
 }
 .imgPreview{
     width: 70%;
@@ -51,7 +52,7 @@ width: 40%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: minmax(100px, auto);
-    padding: 10px 0px 10px 30px;
+    text-align:center;
 }
 .imgGrid{
     width: 90%;
@@ -60,7 +61,14 @@ width: 40%;
     object-position: center;
     aspect-ratio: 1;
     border-radius: 10%;
-    margin-top: 5%;
+    margin-top: 5%; 
+}
+#map{
+    padding: 0px 10px;
+    
+}
+.paddingLados{
+    padding: 0px 10px
 }
 .imgMap{
     width: 20vw;
@@ -109,23 +117,45 @@ padding: 2%;
 
 }
 .userInfo{
+    display: flex;
     margin:15px 10px;
+    align-items: baseline;
+    
+}
+.userInfo p{
+    padding-left: 16px;
+}
+
+a.nav-link{
+    font-weight: bold ;
+    color: grey
+}
+.nav{
+    --bs-nav-link-hover-color:black !important;
+}
+:root{
+    --bs-link-color: #525252 !important;
+}
+.nav-item a{
+    border:1px solid rgb(154, 154, 154) !important;
 }
 .card{
    margin: 5px 10px;
 }
-
+.subcomentario{
+    color: #525252;
+    font-size: small;
+}
 
 .badgeNotif{
     position: relative;
-    left : 90%;
+    left : 78%;
     z-index: 3;
     top: 14px
 }
 
 .dropdown{
     position: absolute;
-top:-7px;
 right: 1%;
 }
 
@@ -158,4 +188,92 @@ right: 1%;
     box-shadow: 8px 13px 17px 0px rgba(194,188,194,1);
 }
 }
+.cajicadelafoto{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+}
+.dropdown-toggle::after{
+    visibility: hidden;
+   margin-left: -0.7450000000000045em !important;
 
+}
+
+#dropdown-menu-align-end{
+background-color: transparent;
+border-color: transparent;
+}
+
+.borrarcomentario{
+    font-weight: lighter;
+    font-size: 10;
+    text-decoration: none;
+    color: rgb(206, 84, 84);
+    align-self: end;
+}
+
+.flexrow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.comentario{
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 5px
+}
+
+.align-right{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+a{
+    text-decoration: none;
+}
+
+body > div.fade.modal.show > div > div > div.modal-body > div > div > div.flexrow > a{
+    text-decoration: none;
+}
+
+#root > div > div > div > table > tbody > tr > td > a{
+text-decoration: none;
+}
+
+.rowaddres{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.iconito{
+    padding-right: 5px;
+}
+tr{
+    vertical-align: baseline;
+}
+td{
+    padding-left: 0 !important;
+}
+.hastag{
+    padding-left: 15px;
+}
+.numeritos{
+    padding-left: 15px !important;
+}
+.iconoupload{
+    font-size: xx-large;
+    margin: 10px;
+}
+
+.btn-secondary{
+    margin-right: 5px;
+}
+
+.navdisplay{
+    padding-left: 10px !important;
+    padding-right: 10px;
+}

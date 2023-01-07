@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { defaultFetch } from '../helpers/defaultFetch';
 import UserContext from '../context/UserContext';
-
+import { faL, faLocationCrosshairs, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ModalConfirm from './ModalConfirm';
 
 
@@ -58,18 +59,21 @@ function ModalImg(props) {
                         {user.id == image.id_user && <ModalConfirm image={image} setImgShow={setShow} setLoad={props.setLoad}/> }
                         </div>
                         <h6>{image.date}</h6>
-                        <p>{image.address}</p>
+                        <div className='rowaddres'>
+                        <FontAwesomeIcon icon={faLocationDot} className="iconito"/>
+                        <p>{image.address}</p></div>
                     </div>
                     {coments && <div>
                         {coments.map((comment, i) => {
-                            return <div key={i}>
+                            return <div key={i} className="comentario">
+                                <div className='flexrow'>
                                 <a href={`/profile/${comment.id_user}`}><h4>{comment.user_name}</h4></a>
-                                <h6>{comment.date}</h6>
-
+                                <p className='subcomentario'>{comment.date}</p>
+                                </div>
                                 <p>{comment.text}</p>
-                                {user.id == comment.id_user && <div>
-                                    <button className='btn btn-secondary'
-                                        onClick={() => { deleteComent(image._id, comment._id) }}>Borrar comentario</button>
+                                {user.id == comment.id_user && <div className='align-right'>
+                                    <a className='borrarcomentario'
+                                        onClick={() => { deleteComent(image._id, comment._id) }}>Borrar comentario</a>
                                 </div>}
                             </div>
                         })}
@@ -81,17 +85,11 @@ function ModalImg(props) {
                                 type="text" 
                                 onChange={(e) => setText(e.target.value)} 
                                 value={text} />
-                                <button className="btn btn-primary marginadoTop" type='submit'>comentar</button>
+                                <button className="btn btn-secondary marginadoTop" type='submit'>comentar</button>
                             </div>
                         </form>
                     }
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cerrar
-                    </Button>
-
-                </Modal.Footer>
             </Modal>
         </>
     );

@@ -15,6 +15,8 @@ function Home(props) {
     const [total_distance, setTotal_distance] = useState(0)
     const [load, setLoad] = useState(false)
 
+
+
     useEffect(()=>{
         setVerify1(isLogged())
     })

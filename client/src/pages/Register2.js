@@ -184,6 +184,7 @@ function Register2() {
                   />
                 </div>
               </div>
+              <div className="form-group marginadoTop">
               <div className="form-group form-check">
                 <input
                   type="checkbox"
@@ -192,10 +193,13 @@ function Register2() {
                 />
                 <label className="form-check-label">Acepto el tratamiento de mis datos</label>
               </div>
+              </div>
               {error?<Warning text="Algo no ha ido bien"/>:""}
+              <div className="form-group marginadoTop">
               <button type="submit" className="btn btn-primary">
-                Submit
+                Registro
               </button>
+              </div>
             </form>
           </div>
         </div>

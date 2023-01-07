@@ -4,6 +4,9 @@ import MapImg from './MapImg';
 import GridImg from './GridImg';
 import { defaultFetch } from '../helpers/defaultFetch';
 import UserContext from '../context/UserContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapLocationDot, faImages } from '@fortawesome/free-solid-svg-icons';
+
 
 
 function DisplayImg(props) {
@@ -56,12 +59,12 @@ useEffect(()=>{
 
     return (
       <div id='DisplayImg'>
-        <Nav variant="tabs">
+        <Nav  fill variant="tabs" activeKey="2" className='navdisplay'>
           <Nav.Item>
-            <Nav.Link onClick={() => setview("grid")}>Grid</Nav.Link>
+            <Nav.Link eventKey="1" onClick={() => setview("grid")}><FontAwesomeIcon icon={faImages}/></Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link onClick={() => setview("map")}>Map</Nav.Link>
+            <Nav.Link eventKey="1" onClick={() => setview("map")}><FontAwesomeIcon icon={faMapLocationDot}/></Nav.Link>
           </Nav.Item>
         </Nav>
         {view === "map"

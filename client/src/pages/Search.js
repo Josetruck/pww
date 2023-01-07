@@ -10,7 +10,8 @@ function Contact() {
     const [verify1, setVerify1] = useState(false)
     const [inputValue, setInputValue] = useState("")
     const [results, setResults] = useState([])
-    const {user} = useContext(UserContext)
+    const { user } = useContext(UserContext)
+    const [searched, setSearched] = useState(null)
 
     useEffect(() => {
         if (!isLogged()) {
@@ -21,10 +22,12 @@ function Contact() {
     })
 
     function handleSearch() {
-        console.log(user)
-        defaultFetch("/searchUser", "post", { user_name: inputValue, id_user:user.id} ).then(res => setResults(res))
-        console.log(inputValue)
-        console.log(results)
+        defaultFetch("/searchUser", "post", { user_name: inputValue, id_user: user.id }).then(res => setResults(res))
+        setSearched(true)
+
+        if(inputValue.length===0){
+            setSearched(false)
+        }
     }
 
 
@@ -50,11 +53,10 @@ function Contact() {
                         })}
                     </div>
                     : null}
-                    {results.length === 0 ?  <div className="resultados">
-                        <h3>No hay resultados en la búsqueda</h3>
-                    </div>:null
-
-                    }
+                {searched && results.length === 0 ? <div className="resultados">
+                    <h4>No hay resultados en la búsqueda</h4>
+                </div> : null
+                }
 
             </div>
         );

@@ -27,14 +27,14 @@ function Clan() {
             {topTen ?
                 <table className="table">
                     <thead className="thdark" >
-                        <th scope="col">#</th>
+                        <th scope="col" className="hastag">#</th>
                         <th scope="col">Usuario</th>
                         <th scope="col">Distancia Total</th>
                     </thead>
                     <tbody>
                         {topTen.map((result, i) => {
                             return <tr key={i}>
-                                <th scope="row">{i + 1}</th>
+                                <td className="numeritos"><strong>{(i + 1)}</strong></td>
                                 <td>
                                     <Link to={`/profile/${result.id}`}><h3>{result.user_name}</h3></Link>
                                 </td>
