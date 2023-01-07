@@ -12,6 +12,7 @@ import PassReset from "../pages/PassReset";
 import PassRequestSuccess from "../pages/PassRequestSuccess";
 import UploadImage from "../pages/UploadImg";
 import Profile from "../pages/Profile";
+import EmailConfirm from "../pages/EmailConfirm";
 
 class Main extends Component {
     constructor(props) {
@@ -34,6 +35,7 @@ class Main extends Component {
                 <Route path="/passrequestsuccess" element={<PassRequestSuccess />} />
                 <Route path="/uploadimage" element={<UploadImage/>} />
                 <Route path="/profile/:id_profile" element={<Profile/>} />
+                <Route path="/account-verify/:jwt" element={<EmailConfirm/>}/>
 
             </Routes>
         </div>

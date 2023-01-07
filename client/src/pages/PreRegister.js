@@ -14,7 +14,6 @@ function PreRegister() {
         setEmailExists(true)
       } else {
         setEmailExists(false)
-        defaultFetch("/sendEmailVerify", "post", { email: email })
         navigate(`/register2/${email}`)
       }
     })

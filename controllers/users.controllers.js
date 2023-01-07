@@ -25,9 +25,7 @@ const user = {
             await profile.register(req, res, newUser.id)
 
             //Creamos un Json Web Token para enviar en el email de confirmación para hacer la verificación.
-            const infoJwt = jwt.sign({ email }, process.env.WEB_TOKEN_SECRET, {
-                expiresIn: "3600s",
-            });
+            const infoJwt = jwt.sign({ email }, process.env.WEB_TOKEN_SECRET);
             let cookie = {
                 user_name: newUser.dataValues.user_name,
                 id_user: newUser.dataValues.id
@@ -181,14 +179,13 @@ const user = {
      * @param {json} res 
      */
     confirmEmail: async (req, res) => {
+        console.log(req.body)
         try {
-            const { email } = req.body;
-            const infoJwt = jwt.sign({ email }, process.env.WEB_TOKEN_SECRET, {
-                expiresIn: "1000s",
-            });
-            await sendemail.emailToRegister(infoJwt, email);
-            res.json(`Email enviado a ${email}`);
+            var email = jwt.verify(req.body.jwt , process.env.WEB_TOKEN_SECRET)
+            console.log(email)
+            res.json(true);
         } catch (error) {
+            console.log(error)
             res.json(error)
         }
     },
