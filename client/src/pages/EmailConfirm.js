@@ -4,11 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { defaultFetch } from "../helpers/defaultFetch";
 
 function EmailConfirm() {
-  const {jwt} = useParams()
-  const handleConfirm = ()=>{
-    console.log(jwt)
-    defaultFetch("/emailVerify", "post", { jwt: jwt }).then(res => console.log(res))
-    
+  const { jwt } = useParams()
+  const handleConfirm = () => {
+    defaultFetch("/emailVerify", "post", { jwt: jwt })
+      .then(res => console.log(res))
+
   }
 
   return (

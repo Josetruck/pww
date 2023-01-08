@@ -11,9 +11,7 @@ function ModalConfirm(props) {
     const handleShow = () => setShow(true);
 
     function deleteImage(_id) {
-        console.log(_id)
         fetch(`/image/${_id}`, { method: "DELETE" }).then(res => res.json()).then(res => {
-            console.log(res)
             if (res) {
                 setShow(false)
                 props.setImgShow(false)

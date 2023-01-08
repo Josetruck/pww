@@ -16,23 +16,22 @@ function Login(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['session']);
 
   const handleValidation = (event) => {
-    
+
     var datos = { input, pass };
 
     defaultFetch("/login", "POST", datos).then((res) => {
       if (res) {
         setCookie('session', res.cookie, { path: "/", expires: new Date('2050-01-01') });
-        console.log("se planta la cookie")
         setLogin_err(false)
         navigate("/")
       } else {
         setLogin_err(true)
       }
-    }).then(()=>{
+    }).then(() => {
       defaultFetch("/loggedUser", "GET").then((res) => {
         props.setUser(res);
         props.setLoad(false)
-        })
+      })
     });
   }
 
@@ -42,7 +41,7 @@ function Login(props) {
     handleValidation();
   };
 
-  function toRegister(){
+  function toRegister() {
     navigate("/preRegister")
   }
 
@@ -52,7 +51,7 @@ function Login(props) {
         <div className="row d-flex justify-content-center">
           <div className="col-md-4">
             <div className="form-group marginadoTop">
-            <h1>Inicia sesión en PWW</h1>
+              <h1>Inicia sesión en PWW</h1>
             </div>
             <form id="loginform" onSubmit={loginSubmit}>
               <div className="form-group">
@@ -91,7 +90,7 @@ function Login(props) {
               <h2 className="marginadoTop">¿Aún no tienes cuenta?</h2>
             </div>
             <div className="form-group marginadoTop">
-              <button className="btn btn-success" onClick={()=>toRegister()}>
+              <button className="btn btn-success" onClick={() => toRegister()}>
                 Registrate
               </button>
             </div>

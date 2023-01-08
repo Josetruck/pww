@@ -34,7 +34,6 @@ const image = {
             await Images.create({ id_user, location, date, url, title, address });
             const imgList= await Images.find({id_user}).sort({date:'desc'})
             const coords = imgList.map(image=>image.location)
-            console.log(coords)
             let distance = 0;
             for (let i = 0; i < coords.length - 1; i++) {
               distance += getDistanceBetweenPoints(coords[i],coords[i+1]);
@@ -123,17 +122,13 @@ const image = {
         await mongoose.connect(url).catch(error => handleError(error));
         try {
             const { _id } = req.params
-
             // Buscamos la imagen para averiguar la id del usuario y el nombre del archivo y borrarlo del almacenamiento.
             const image = await Images.findOne({ _id })
             const {id_user, url} = image
-
             //Borra la imagen del almacenamiento
             fs.unlinkSync(`${__dirname}/../images/${id_user}/${url}`)
-
             //Borra la imagen de la colección.
             await Images.deleteOne({_id})
-
             //Actualiza la distancia recorrida por el usuario entre las imágenes.
             const imgList= await Images.find({id_user}).sort({date:'desc'})
             const coords = imgList.map(image=>image.location)
@@ -141,7 +136,6 @@ const image = {
             for (let i = 0; i < coords.length - 1; i++) {
               distance += getDistanceBetweenPoints(coords[i],coords[i+1]);
             }
-
             //Actualiza la distancia recorrida en la base de datos del usuario.
             await user.updateUserDistance(id_user, distance)
             res.json(true)

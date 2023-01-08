@@ -21,34 +21,35 @@ function Register2() {
   const [postal_code, setPostal_code] = useState("")
   const [error, setError] = useState(false)
   const { email } = useParams()
-  const {user, setUser} = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
 
   const handleValidation = (event) => {
     const cookies = new Cookies();
     const datos = { firstname, lastname, birth_date, phone_number, location, postal_code, user_name, email, "pass": password }
     if (user_nameAvaliable && passMatch) {
-      defaultFetch("/register", "POST", datos).then(res=>{
-        if(res){
-        cookies.set('session', res.cookie, { path: "/", expires: new Date('2050-01-01') });
-        navigate("/registerSuccess")
-        user.load = false
-        setUser(user)
-      } else {
-        setError(true)
-      }
-      })
+      defaultFetch("/register", "POST", datos)
+        .then(res => {
+          if (res) {
+            cookies.set('session', res.cookie, { path: "/", expires: new Date('2050-01-01') });
+            navigate("/registerSuccess")
+            user.load = false
+            setUser(user)
+          } else {
+            setError(true)
+          }
+        })
     }
   }
   useEffect(() => {
-    defaultFetch("/searchAvaliableUser", "POST", { "user_name": user_name }).then((res) => {
-      console.log(res.avaliable)
-      if (res.avaliable) {
-        setUser_nameAvaliable(true)
-      } else {
-        setUser_nameAvaliable(false)
-      }
-    })
+    defaultFetch("/searchAvaliableUser", "POST", { "user_name": user_name })
+      .then((res) => {
+        if (res.avaliable) {
+          setUser_nameAvaliable(true)
+        } else {
+          setUser_nameAvaliable(false)
+        }
+      })
   }, [user_name])
   useEffect(() => {
     if (password === password2) {
@@ -81,7 +82,7 @@ function Register2() {
                     id="user_nameInput"
                     name="user_nameInput"
                     placeholder="Nombre de usuario"
-                    maxLength={20} 
+                    maxLength={20}
                     onChange={(event) => setUser_name(event.target.value)}
                   />
                   <div className="alert-form-container col">
@@ -184,20 +185,20 @@ function Register2() {
                 </div>
               </div>
               <div className="form-group marginadoTop">
-              <div className="form-group form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="exampleCheck1"
-                />
-                <label className="form-check-label">Acepto el tratamiento de mis datos</label>
+                <div className="form-group form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="exampleCheck1"
+                  />
+                  <label className="form-check-label">Acepto el tratamiento de mis datos</label>
+                </div>
               </div>
-              </div>
-              {error?<Warning text="Algo no ha ido bien"/>:""}
+              {error ? <Warning text="Algo no ha ido bien" /> : ""}
               <div className="form-group marginadoTop">
-              <button type="submit" className="btn btn-primary">
-                Registro
-              </button>
+                <button type="submit" className="btn btn-primary">
+                  Registro
+                </button>
               </div>
             </form>
           </div>

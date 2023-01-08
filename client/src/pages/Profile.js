@@ -18,12 +18,15 @@ function Profile() {
 
     useEffect(() => {
         if (!profile)
-            fetch(`/getUserById/${id_profile}`).then(res => res.json()).then(res => setProfile(res))
-        console.log(profile)
+            fetch(`/getUserById/${id_profile}`)
+                .then(res => res.json())
+                .then(res => setProfile(res))
     })
 
     useEffect(() => {
-        fetch(`/getDistance/${id_profile}`).then(res => res.json()).then(res => setTotal_distance(res.total_distance))
+        fetch(`/getDistance/${id_profile}`)
+            .then(res => res.json())
+            .then(res => setTotal_distance(res.total_distance))
     })
 
     useEffect(() => {
@@ -31,7 +34,8 @@ function Profile() {
         if (friend_list.includes(parseInt(id_profile))) {
             setIsFriend(true)
         }
-        fetch(`/getUserRequestOut/${user.id}`).then(res => res.json())
+        fetch(`/getUserRequestOut/${user.id}`)
+            .then(res => res.json())
             .then(res => {
                 res.forEach((element) => {
                     if (element.fk_id_to == id_profile && element.status === "progress") {
@@ -53,11 +57,13 @@ function Profile() {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(res => res.json()).then((res) => {
-            if (res) {
-                setSended(true)
-            }
         })
+            .then(res => res.json())
+            .then((res) => {
+                if (res) {
+                    setSended(true)
+                }
+            })
     }
 
     if (verify1) {
@@ -67,10 +73,10 @@ function Profile() {
                     <h1 className="userName">{profile.user_name}</h1>
                     <p id="weekDistance">{total_distance} km</p>
                 </div>
-                    <div className="flexrow paddingLados">
-                        {(!isFriend) && <button className="btn btn-primary" onClick={sendRequest}>Añadir como amigo</button>}
-                        {!isFriend && sended && <p>Solicitud enviada</p>}
-                    </div>
+                <div className="flexrow paddingLados">
+                    {(!isFriend) && <button className="btn btn-primary" onClick={sendRequest}>Añadir como amigo</button>}
+                    {!isFriend && sended && <p>Solicitud enviada</p>}
+                </div>
                 {isFriend ? <DisplayImg id_user={id_profile} /> : <div className="card">
                     <div className="card-body">
                         <h3>No puedes ver este perfil</h3>

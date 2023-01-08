@@ -30,13 +30,13 @@ function UploadImage() {
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
-        console.log(file)
-
 
         setImagen({
             file: file,
+            //Esta url sirve para mostrar una previsualización de la imagen en la etiqueta <img>
             imagePreviewUrl: URL.createObjectURL(file)
         });
+
         const reader = new FileReader();
         reader.onload = () => {
             // Crea un parser para el archivo de imagen
@@ -44,12 +44,9 @@ function UploadImage() {
 
             // Parsea los metadatos EXIF del archivo de imagen
             const result = parser.parse();
-            console.log("Lo de la foto_", result.tags)
 
             // Accede a los metadatos a través del objeto result
-
             const dateTimestamp = result.tags.DateTimeOriginal
-            console.log(dateTimestamp)
             var date;
             if (dateTimestamp) {
                 date = new Date(dateTimestamp * 1000);
@@ -63,23 +60,19 @@ function UploadImage() {
             let dt = date.getDate();
             let hh = date.getHours()
             let mm = date.getMinutes()
-            if (dt < 10) {
-                dt = '0' + dt;
-            }
-            if (month < 10) {
-                month = '0' + month;
-            }
-            if (hh < 10) {
-                hh = '0' + hh;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
+
+            if (dt < 10) { dt = '0' + dt; }
+            if (month < 10) { month = '0' + month; }
+            if (hh < 10) { hh = '0' + hh; }
+            if (mm < 10) { mm = '0' + mm; }
 
             const dateString = (year + '-' + month + '-' + dt + " " + hh + ":" + mm).toString();
+
+            //Formateo de las coordenadas en un array de dos posiciones [lat, lon].
             const gpsLat = result.tags.GPSLatitude;
             const gpsLon = result.tags.GPSLongitude;
             var coordinates = [gpsLat, gpsLon]
+
             // Accede a las coordenadas del dispositivo en caso de que no estén disponibles en los metadatos
             if (!gpsLat) {
                 coordinates = user.coordinates
@@ -91,38 +84,44 @@ function UploadImage() {
                 address
             });
         };
+
         reader.readAsArrayBuffer(file);
     }
+
+    //Funcion que sube la imagen
     const handleUpload = (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file", imagen.file);
-        console.log(formData)
         fetch("/upload", {
             method: "POST",
             body: formData,
             headers: {
                 id_user: id_user
             }
-        }).then(res => res.json()).then(res => {
-            const url = res.path;
+        })
+            .then(res => res.json())
+            .then(res => {
+                const url = res.path;
 
-            const datos = {
-                id_user: id_user,
-                date: metadata.dateString,
-                title: title,
-                url: url,
-                location: metadata.coordinates,
-                address: address
-            }
-            console.log("titulo", title, datos)
-            defaultFetch("/insertImg", "POST", datos).then(res => {
-                if (res === "ok") {
-                    navigate("/")
-                    setUser(user)
+                // Guardamos en la base de datos el nombre del archivo como se ha guardado en el servidor.
+                const datos = {
+                    id_user: id_user,
+                    date: metadata.dateString,
+                    title: title,
+                    url: url,
+                    location: metadata.coordinates,
+                    address: address
                 }
-            })
-        });
+
+                defaultFetch("/insertImg", "POST", datos)
+                    .then(res => {
+                        if (res === "ok") {
+                            navigate("/")
+                            setUser(user)
+                        }
+                    })
+            });
     }
     useEffect(() => {
         if (!isLogged()) {
@@ -140,7 +139,7 @@ function UploadImage() {
                             <form id="loginform" onSubmit={handleUpload}>
 
                                 <div className="centrado marginadoTop">
-                                <h3>Nueva publicación:</h3>
+                                    <h3>Nueva publicación:</h3>
 
                                     <label className="centrado">
                                         <input
@@ -153,31 +152,31 @@ function UploadImage() {
                                             onChange={handleImageChange}
                                         />
                                         <div className="centrado">
-                                            <FontAwesomeIcon icon={faUpload} className="iconoupload"/>
+                                            <FontAwesomeIcon icon={faUpload} className="iconoupload" />
                                             <p>Elige tu foto</p>
                                         </div>
                                     </label>
-                                <div>
-                                    <label>Título</label>
-                                    <input type="text" className="form-control" onChange={(e) => setTitle(e.target.value)} />
-                                </div>
+                                    <div>
+                                        <label>Título</label>
+                                        <input type="text" className="form-control" onChange={(e) => setTitle(e.target.value)} />
+                                    </div>
                                 </div>
                                 {imagen && <div className="form-group centrado marginadoTop">
                                     <h4>Previsualización</h4>
                                     <img src={imagen.imagePreviewUrl} alt="Preview" className="imgPreview" />
-                                {metadata && (
-                                    <div className="Home cajicadelafoto">
-                                        <p><strong>Fecha:</strong> {metadata.dateString}</p>
-                                        <p><strong>Coordenadas:</strong> {metadata.coordinates}</p>
-                                        <p><strong>Localizacion:</strong> {address}</p>
+                                    {metadata && (
+                                        <div className="Home cajicadelafoto">
+                                            <p><strong>Fecha:</strong> {metadata.dateString}</p>
+                                            <p><strong>Coordenadas:</strong> {metadata.coordinates}</p>
+                                            <p><strong>Localizacion:</strong> {address}</p>
+                                        </div>
+                                    )}
+                                    <div className="marginadoTop submit">
+                                        <button type="submit" className="btn btn-secondary" >
+                                            Publicar
+                                        </button>
                                     </div>
-                                )}
-                                <div className="marginadoTop submit">
-                                    <button type="submit" className="btn btn-secondary" >
-                                        Publicar
-                                    </button>
-                                </div>
-                                    </div>}
+                                </div>}
                             </form>
                         </div>
                     </div>

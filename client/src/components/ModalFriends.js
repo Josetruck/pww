@@ -31,11 +31,11 @@ function ModalFriends(props) {
     }, [load])
 
     const update = (id) => {
-        if(id){
-        var newFriends = friends.filter((e) => e != id)
-        setFriends(newFriends)
-        user._doc.friend_list = newFriends;
-        setUser(user)
+        if (id) {
+            var newFriends = friends.filter((e) => e != id)
+            setFriends(newFriends)
+            user._doc.friend_list = newFriends;
+            setUser(user)
         }
     }
 
@@ -51,7 +51,6 @@ function ModalFriends(props) {
                 </Modal.Header>
                 <Modal.Body>
                     {friendsData && friendsData.map((friend, i) => {
-                        console.log(friend)
                         return <div key={i} className="titleAndDelete">
                             <h4>{friend.user_name}</h4>
                             <button className='btn btn-secondary'><ModalConfirmFriend id={friend.id} setLoad={setLoad} update={update} /></button>

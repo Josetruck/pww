@@ -66,7 +66,7 @@ const profile = {
       await mongoose.connect(url).catch(error => handleError(error));
       await Profile.update({id_user: id_to},{ $push: { friend_list: id_from } })
       var profile = await Profile.findOne({id_user:id_to})
-      console.log("addedfriend",profile)
+      console.log("addedfriend", profile)
       return true
     } catch (error) {
       console.log(error)
@@ -84,7 +84,6 @@ const profile = {
     const id_from = parseInt(req.params.id_from)
     const id_to = parseInt(req.params.id_to)
     try {
-      console.log(req.params)
       await mongoose.connect(url).catch(error => handleError(error));
       const userFrom= await Profile.findOneAndUpdate({"id_user": id_to},{ $pull: { "friend_list": id_from } })
       const userTo= await Profile.findOneAndUpdate({"id_user": id_from},{ $pull: { "friend_list": id_to } })

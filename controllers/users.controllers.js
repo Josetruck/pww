@@ -102,11 +102,11 @@ const user = {
      */
     getUserById: async (req, res) => {
         try {
-            const userFinded = await Users.findByPk(req.params.id, { attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] })
+            const userFinded = await Users.findByPk(req.params.id, 
+                { attributes: ["id", "user_name", "email", "total_distance", "this_week_distance", "clan_admin", "fk_id_clan", "fk_id_faction"] })
             const profileFinded = await profile.getById(req.params.id)
             const user_datavalues = userFinded.dataValues
             const userData = Object.assign({}, user_datavalues, profileFinded)
-            console.log(userData)
             res.json(userData)
         } catch (error) {
             res.send(error)
@@ -179,7 +179,6 @@ const user = {
      * @param {json} res 
      */
     confirmEmail: async (req, res) => {
-        console.log(req.body)
         try {
             var email = jwt.verify(req.body.jwt , process.env.WEB_TOKEN_SECRET)
             console.log(email)
@@ -256,7 +255,6 @@ const user = {
     getDistancesById: async (req, res) => {
         try {
             const distances = await Users.findByPk(req.params.id, { attributes: ["this_week_distance", "total_distance"] })
-            console.log(distances.dataValues)
             res.json(distances.dataValues)
         } catch (error) {
             console.log(error)
