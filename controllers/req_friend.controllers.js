@@ -66,8 +66,10 @@ const requestf = {
             const requestInfo = await Req_friend.findByPk(id)
 
             //Actualiza el array con ids del perfil de los usuarios con las ids que participan en la solicitud de amistad.
-            await profile.addfriend(requestInfo.fk_id_from, requestInfo.fk_id_to)
-            await profile.addfriend(requestInfo.fk_id_to, requestInfo.fk_id_from)
+            if(response =="accepted"){
+                await profile.addfriend(requestInfo.fk_id_from, requestInfo.fk_id_to)
+                await profile.addfriend(requestInfo.fk_id_to, requestInfo.fk_id_from)
+            }
             res.json(true)
         } catch (error) {
             console.log(error)
