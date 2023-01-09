@@ -44,7 +44,7 @@ function UploadImage() {
 
             // Parsea los metadatos EXIF del archivo de imagen
             const result = parser.parse();
-
+            console.log(result.tags)
             // Accede a los metadatos a través del objeto result
             const dateTimestamp = result.tags.DateTimeOriginal
             var date;
